@@ -7,7 +7,7 @@ load_dotenv()  # Biar bisa baca .env (Railway otomatis inject ENV vars)
 
 # Railway otomatis kasih DATABASE_URL
 # Contoh: postgresql://username:password@host:port/dbname
-DATABASE_URL = os.getenv("postgresql://postgres:YFIDaFScjCFnQWJJQDpIHVAllUPlkqwF@postgres.railway.internal:5432/railway")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Kalau masih kosong (misalnya running lokal), fallback ke SQLite
 if not DATABASE_URL:
