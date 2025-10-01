@@ -123,9 +123,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-@app.options("/{path:path}")
-async def option_handler(path: str):
-    return {"message" : "OK"}
 
 # ⬇️ bikin tabel saat start
 Base.metadata.create_all(bind=engine)
@@ -468,3 +465,7 @@ def delete_voting_period(period_id: int, db: Session = Depends(get_db)):
     db.delete(db_period)
     db.commit()
     return {"detail": "Voting period deleted"}
+
+@app.options("/{path:path}")
+async def option_handler(path: str):
+    return {"message" : "OK"}
