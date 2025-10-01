@@ -118,7 +118,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173", 
-        "https://project-evotin-git-main-arjuba12s-projects.vercel.app/"],
+        "https://project-evotin-git-main-arjuba12s-projects.vercel.app", 
+        "https://project-evotin-2wvhfeoon-arjuba12s-projects.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
