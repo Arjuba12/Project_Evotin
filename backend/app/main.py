@@ -47,11 +47,6 @@ def to_utc(dt: datetime):
         dt = WIB.localize(dt)  # kalau naive → anggap WIB
     return dt.astimezone(timezone.utc)
 
-@app.options("/{path:path}")
-async def option_handler(path: str):
-    return {"message" : "OK"}
-security = HTTPBearer()
-
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
     try:
@@ -469,3 +464,7 @@ def delete_voting_period(period_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"detail": "Voting period deleted"}
 
+@app.options("/{path:path}")
+async def option_handler(path: str):
+    return {"message" : "OK"}
+security = HTTPBearer()
