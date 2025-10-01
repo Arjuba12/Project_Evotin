@@ -12,7 +12,7 @@ export default function HomePage() {
 
   // Ambil kandidat
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/candidates")
+    fetch(`${import.meta.env.VITE_API_URL}/candidates`)
       .then((res) => res.json())
       .then((data) => {
         setCandidates(data);
@@ -27,7 +27,7 @@ export default function HomePage() {
   // Ambil statistik
   useEffect(() => {
     if (token) {
-      fetch("http://127.0.0.1:8000/stats", {
+      fetch(`${import.meta.env.VITE_API_URL}/stats`, {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => res.json())
@@ -45,7 +45,7 @@ export default function HomePage() {
         return;
       }
 
-      const res = await fetch("http://127.0.0.1:8000/vote", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/vote`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +75,7 @@ export default function HomePage() {
 
   // Ambil periode voting
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/voting-period")
+    fetch(`${import.meta.env.VITE_API_URL}/voting-period`)
       .then((res) => res.json())
       .then((data) => {
         if (data.length > 0) {

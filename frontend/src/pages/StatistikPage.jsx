@@ -35,13 +35,13 @@ export default function StatistikPage() {
     const fetchStats = async () => {
       try {
         const token = localStorage.getItem("token"); // pastikan simpan token pas login
-        const resStats = await fetch("http://localhost:8000/stats", {
+        const resStats = await fetch(`${import.meta.env.VITE_API_URL}/stats`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const dataStats = await resStats.json();
         setStats(dataStats);
 
-        const resResults = await fetch("http://localhost:8000/results");
+        const resResults = await fetch(`${import.meta.env.VITE_API_URL}/results`);
         const dataResults = await resResults.json();
         setResults(dataResults);
       } catch (err) {

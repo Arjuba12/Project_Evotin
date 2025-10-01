@@ -40,7 +40,7 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      const response = await fetch("http://127.0.0.1:8000/register", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -72,7 +72,7 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      const response = await fetch("http://127.0.0.1:8000/verify-otp", {
+      const response = await fetch("`${import.meta.env.VITE_API_URL}/verify-otp`", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }),
@@ -108,7 +108,7 @@ export default function RegisterPage() {
   // Step 3: Resend OTP
   const handleResendOtp = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/resend-otp", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/resend-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
