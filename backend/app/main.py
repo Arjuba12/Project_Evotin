@@ -466,6 +466,3 @@ def delete_voting_period(period_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"detail": "Voting period deleted"}
 
-@app.options("/{path:path}")
-async def option_handler(path: str):
-    return {"message" : "OK"}
