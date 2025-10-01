@@ -46,6 +46,8 @@ def to_utc(dt: datetime):
     if dt.tzinfo is None:
         dt = WIB.localize(dt)  # kalau naive → anggap WIB
     return dt.astimezone(timezone.utc)
+    
+security = HTTPBearer()
 
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
@@ -467,4 +469,4 @@ def delete_voting_period(period_id: int, db: Session = Depends(get_db)):
 @app.options("/{path:path}")
 async def option_handler(path: str):
     return {"message" : "OK"}
-security = HTTPBearer()
+
