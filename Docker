@@ -1,14 +1,19 @@
 FROM python:3.11-slim
 
+# Set working directory
 WORKDIR /app
 
 # Copy requirements
-COPY requirements.txt .
+COPY ../../requirements.txt .
 
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy semua kode backend
+# Copy backend code (pastikan sesuai path dari root project)
 COPY . .
 
-# Jalankan server
+# Expose port
+EXPOSE 8000
+
+# Jalankan FastAPI dengan uvicorn
 CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
