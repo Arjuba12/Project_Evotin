@@ -47,6 +47,9 @@ def to_utc(dt: datetime):
         dt = WIB.localize(dt)  # kalau naive → anggap WIB
     return dt.astimezone(timezone.utc)
 
+@app.options("/{path:path}")
+async def option_handler(path: str):
+    return {"message" : "OK"}
 security = HTTPBearer()
 
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
