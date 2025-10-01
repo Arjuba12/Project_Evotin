@@ -1,6 +1,8 @@
 import React, { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css"; // Pakai CSS login agar konsisten
+import { ethers } from "ethers";
+import VotingABI from "../contracts/Voting.json";
 
 export default function ConnectWalletPage() {
   const [walletAddress, setWalletAddress] = useState("");
