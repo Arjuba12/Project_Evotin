@@ -123,6 +123,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+@app.options("/{path:path}")
+async def option_handler(path: str):
+    return {"message" : "OK"}
 
 # ⬇️ bikin tabel saat start
 Base.metadata.create_all(bind=engine)
