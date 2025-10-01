@@ -72,7 +72,7 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      const response = await fetch("`${import.meta.env.VITE_API_URL}/verify-otp`", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }),
