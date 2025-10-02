@@ -28,13 +28,10 @@ export default function LoginPage() {
       } else {
         alert(`✅ ${data.message || "Login berhasil"}`);
 
+        
         // Simpan token (yang dikirim backend, misalnya data.access_token)
         if (data.access_token) {
-          if (remember) {
-            localStorage.setItem("token", data.access_token); // ✅ simpan permanen
-          } else {
-            sessionStorage.setItem("token", data.access_token); // ✅ hanya sesi
-          }
+          localStorage.setItem("token", data.access_token);
         }
 
         // Redirect ke /home tanpa reload full page
@@ -91,7 +88,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <label htmlFor="password">Password</label>
-
+              
               <span className="input-line"></span>
             </div>
             <span className="error-message" id="passwordError"></span>
