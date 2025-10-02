@@ -73,6 +73,15 @@ export default function HomePage() {
     }
   };
 
+  // helper untuk format ke WIB
+  function formatWIB(dateStr) {
+    return new Date(dateStr).toLocaleString("id-ID", {
+      timeZone: "Asia/Jakarta",
+      dateStyle: "short",
+      timeStyle: "short",
+    });
+  }
+
   // Ambil periode voting
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/voting-period`)
@@ -91,8 +100,8 @@ export default function HomePage() {
 
     const interval = setInterval(() => {
       // Pakai UTC agar akurat
-      const start = new Date(period.start_date + "Z").getTime();
-      const end = new Date(period.end_date + "Z").getTime();
+      const start = new Date(period.start_date).getTime();
+      const end = new Date(period.end_date).getTime();
       const now = new Date().getTime();
 
       let distance;
@@ -192,13 +201,12 @@ export default function HomePage() {
           <p>
             🗓️ Periode:{" "}
             {period
-              ? `${new Date(period.start_date).toLocaleString("id-ID", {
-                  timeZone: "Asia/Jakarta",
-                })} - ${new Date(period.end_date).toLocaleString("id-ID", {
-                  timeZone: "Asia/Jakarta",
-                })}`
+              ? `${formatWIB(period.start_date)} - ${formatWIB(
+                  period.end_date
+                )}`
               : "-"}
           </p>
+
           <p>👥 Pemilih Terdaftar: {stats ? stats.total_users : "-"}</p>
           <p>
             ✅ Status Anda: {stats?.has_voted ? "Sudah Voting" : "Belum Voting"}
@@ -236,14 +244,12 @@ export default function HomePage() {
       <footer className="footer">
         <p>© 2025 NEOVOTE - Sistem Voting Terdesentralisasi</p>
       </footer>
-      
+
       <div className="background-effects">
         <div className="glow-orb glow-orb-1"></div>
         <div className="glow-orb glow-orb-2"></div>
         <div className="glow-orb glow-orb-3"></div>
       </div>
     </div>
-
-    
   );
 }
