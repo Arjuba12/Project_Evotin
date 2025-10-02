@@ -1,7 +1,6 @@
-/* navbar atas */
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* logo kiri, hamburger/menu kanan */
   align-items: center;
   background: rgba(17, 17, 17, 0.95);
   backdrop-filter: blur(8px);
