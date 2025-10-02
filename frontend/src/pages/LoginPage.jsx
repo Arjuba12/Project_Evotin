@@ -7,6 +7,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [remember, setRemember] = useState(false); // ✅ state untuk checkbox
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -29,7 +30,11 @@ export default function LoginPage() {
 
         // Simpan token (yang dikirim backend, misalnya data.access_token)
         if (data.access_token) {
-          localStorage.setItem("token", data.access_token);
+          if (remember) {
+            localStorage.setItem("token", data.access_token); // ✅ simpan permanen
+          } else {
+            sessionStorage.setItem("token", data.access_token); // ✅ hanya sesi
+          }
         }
 
         // Redirect ke /home tanpa reload full page
@@ -86,7 +91,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <label htmlFor="password">Password</label>
-              
+
               <span className="input-line"></span>
             </div>
             <span className="error-message" id="passwordError"></span>

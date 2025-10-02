@@ -726,4 +726,17 @@ input:-webkit-autofill {
         opacity: 0.5;
     }
 
+    .input-wrapper label {
+        transform: none !important;
+        top: 16px !important;
+        font-size: 16px;
+        color: #888;
+    }
+
+    .input-wrapper input:focus + label,
+    .input-wrapper input:valid + label {
+        transform: none !important;
+        color: #888;
+    }
+
 }
