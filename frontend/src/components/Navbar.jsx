@@ -17,7 +17,25 @@ export default function Navbar() {
       <nav className="navbar">
         <div className="logo">NEOVOTE</div>
 
-        {/* hamburger di kanan */}
+        {/* menu desktop */}
+        <ul className="nav-links">
+          <li>
+            <a href="/home">Home</a>
+          </li>
+          <li>
+            <a href="/statistik">Statistik</a>
+          </li>
+          <li>
+            <a href="/profile">Profile</a>
+          </li>
+          <li>
+            <button onClick={handleLogout} className="special-btn">
+              Logout
+            </button>
+          </li>
+        </ul>
+
+        {/* hamburger di kanan (hanya muncul di mobile via CSS) */}
         <div className="menu-icon" onClick={() => setIsOpen(true)}>
           ☰
         </div>
