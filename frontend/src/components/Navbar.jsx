@@ -13,30 +13,53 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar">
-      <div className="logo">NEOVOTE</div>
+    <>
+      <nav className="navbar">
+        <div className="logo">NEOVOTE</div>
 
-      {/* hamburger menu */}
-      <div className="menu-icon" onClick={() => setIsOpen(!isOpen)}>
-        ☰
+        {/* hamburger */}
+        <div className="menu-icon" onClick={() => setIsOpen(true)}>
+          ☰
+        </div>
+      </nav>
+
+      {/* overlay */}
+      <div
+        className={`overlay ${isOpen ? "show" : ""}`}
+        onClick={() => setIsOpen(false)}
+      ></div>
+
+      {/* sidebar drawer */}
+      <div className={`sidebar ${isOpen ? "open" : ""}`}>
+        <button className="close-btn" onClick={() => setIsOpen(false)}>
+          ×
+        </button>
+        <div className="sidebar-header">
+          <img
+            src="https://via.placeholder.com/60"
+            alt="avatar"
+            className="avatar"
+          />
+          <h3>Renan Borba</h3>
+          <p>renandbm.rb@gmail.com</p>
+        </div>
+        <ul>
+          <li>
+            <a href="/home">Home</a>
+          </li>
+          <li>
+            <a href="/statistik">Statistik</a>
+          </li>
+          <li>
+            <a href="/profile">Profile</a>
+          </li>
+          <li>
+            <button onClick={handleLogout} className="special-btn">
+              Logout
+            </button>
+          </li>
+        </ul>
       </div>
-
-      <ul className={`nav-links ${isOpen ? "active" : ""}`}>
-        <li>
-          <a href="/home">Home</a>
-        </li>
-        <li>
-          <a href="/statistik">Statistik</a>
-        </li>
-        <li>
-          <a href="/profile">Profile</a>
-        </li>
-        <li>
-          <button onClick={handleLogout} className="special-btn">
-            Logout
-          </button>
-        </li>
-      </ul>
-    </nav>
+    </>
   );
 }
