@@ -8,4 +8,5 @@ passlib[bcrypt]==1.7.4
 bcrypt==4.1.2
 python-jose[cryptography]
 pytz
-aiosmtplib
+fastapi-mail==1.4.1
+aiosmtplib==3.0.1
