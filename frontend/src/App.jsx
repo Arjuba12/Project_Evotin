@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import ConnectWalletPage from "./pages/ConnectWalletPage"; // ✅ halaman connect wallet
+// import ConnectWalletPage from "./pages/ConnectWalletPage"; 
 import HomePage from "./pages/HomePage";
 import StatistikPage from "./pages/StatistikPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -22,7 +22,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        {/* halaman connect wallet */}
+        {/* halaman connect wallet
         <Route
           path="/connect-wallet"
           element={
@@ -30,7 +30,7 @@ export default function App() {
               <ConnectWalletPage />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         {/* halaman yang butuh login */}
         <Route
