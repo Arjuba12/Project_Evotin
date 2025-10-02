@@ -18,6 +18,8 @@ from pytz import timezone as tz
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import sib_api_v3_sdk
+from sib_api_v3_sdk.rest import ApiException
 
 from dotenv import load_dotenv
 import os
@@ -147,30 +149,31 @@ class ResendOTPRequest(BaseModel):
     
 # Fungsi kirim email
 # Fungsi kirim email
+# Fungsi kirim email via Brevo
 def send_email_otp(to_email: str, otp: str):
-    # Ambil dari .env
-    smtp_server = "smtp.gmail.com"
-    smtp_port = 587
-    sender_email = MAIL_USERNAME        # dari .env
-    sender_password = MAIL_PASSWORD     # dari .env
+    configuration = sib_api_v3_sdk.Configuration()
+    configuration.api_key['api-key'] = os.getenv("BREVO_API_KEY")
 
-    msg = MIMEMultipart()
-    msg["From"] = sender_email
-    msg["To"] = to_email
-    msg["Subject"] = "NEOVOTE OTP Verification"
+    api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
 
+    subject = "NEOVOTE OTP Verification"
     body = f"Kode OTP Anda: {otp}\n\nJangan bagikan kode ini ke siapa pun."
-    msg.attach(MIMEText(body, "plain"))
+
+    sender = {"email": os.getenv("SENDER_EMAIL"), "name": "NEOVOTE"}
+    to = [{"email": to_email}]
+
+    email = sib_api_v3_sdk.SendSmtpEmail(
+        to=to,
+        sender=sender,
+        subject=subject,
+        text_content=body,
+    )
 
     try:
-        server = smtplib.SMTP(smtp_server, smtp_port)
-        server.starttls()
-        server.login(sender_email, sender_password)
-        server.send_message(msg)
-        server.quit()
-        print(f"✅ OTP dikirim ke {to_email}")
-    except Exception as e:
-        print(f"⚠️ Gagal kirim email: {e}")
+        response = api_instance.send_transac_email(email)
+        print(f"✅ OTP dikirim ke {to_email}, Brevo messageId: {response['messageId']}")
+    except ApiException as e:
+        print(f"⚠️ Gagal kirim email ke {to_email} lewat Brevo: {e}")
 
 
 @app.post("/register")
