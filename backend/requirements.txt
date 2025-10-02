@@ -9,4 +9,4 @@ bcrypt==4.1.2
 python-jose[cryptography]
 pytz
 fastapi-mail==1.4.1
-aiosmtplib==3.0.1
+aiosmtplib<3.0,>=2.0
