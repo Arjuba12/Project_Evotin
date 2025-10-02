@@ -10,6 +10,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState("");
   const [generatedOtp, setGeneratedOtp] = useState("");
+  const [nim, setNim] = useState("");
 
   // Step 1: Register + request OTP
   const handleSubmit = async (e) => {
@@ -43,7 +44,7 @@ export default function RegisterPage() {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password, nim }),
       });
 
       const data = await response.json();
@@ -72,11 +73,14 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/verify-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/verify-otp`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, otp }),
+        }
+      );
 
       const data = await response.json();
 
@@ -108,11 +112,14 @@ export default function RegisterPage() {
   // Step 3: Resend OTP
   const handleResendOtp = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/resend-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/resend-otp`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }
+      );
 
       const data = await response.json();
 
@@ -152,6 +159,22 @@ export default function RegisterPage() {
         {/* Form Register */}
         {step === "register" && (
           <form className="login-form" onSubmit={handleSubmit} noValidate>
+
+            {/* NIM */}
+            <div className="form-group">
+              <div className="input-wrapper">
+                <input
+                  type="text"
+                  id="nim"
+                  required
+                  value={nim}
+                  onChange={(e) => setNim(e.target.value)}
+                />
+                <label htmlFor="nim">NIM</label>
+                <span className="input-line"></span>
+              </div>
+            </div>
+
             {/* Name */}
             <div className="form-group">
               <div className="input-wrapper">

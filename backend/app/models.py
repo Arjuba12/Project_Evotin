@@ -6,11 +6,12 @@ import datetime
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True, nullable=False)
-    email = Column(String, unique=True, index=True, nullable=False)  # tambahkan email
-    password = Column(String, nullable=False)
-    is_verified = Column(Boolean, default=False) 
-    otp_code = Column(String, nullable=True)  # untuk menyimpan kode OTP
+    username = Column(String, unique=True, index=True)
+    email = Column(String, unique=True, index=True)
+    password = Column(String)
+    nim = Column(String, unique=True, index=True)   # 🔹 Tambahkan NIM unik
+    is_verified = Column(Boolean, default=False)
+    otp_code = Column(String, nullable=True)
 
 class Candidate(Base):
     __tablename__ = "candidates"

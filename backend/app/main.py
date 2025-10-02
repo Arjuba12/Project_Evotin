@@ -138,6 +138,7 @@ class RegisterRequest(BaseModel):
     name: str
     email: str
     password: str
+    nim: str  
 
 
 class LoginRequest(BaseModel):
@@ -182,11 +183,19 @@ def send_email_otp(to_email: str, otp: str):
 @app.post("/register")
 def register(req: RegisterRequest, db: Session = Depends(get_db)):
     email = req.email.strip().lower()
-    validate_password(req.password)
+    nim = req.nim.strip()
 
-    # 📌 PERBAIKAN KRUSIAL: Memotong password agar tidak lebih dari 72 bytes
-    # Ini mengatasi error ValueError yang disebabkan oleh passlib/bcrypt.
-    password_to_use = req.password[:72] # Potong string di sini
+    # Validasi format NIM (contoh: hanya angka dan panjang 10 digit)
+    if not nim.isdigit() or len(nim) != 10:
+        raise HTTPException(status_code=400, detail="NIM harus berupa 10 digit angka")
+
+    # Cek apakah NIM sudah terdaftar
+    nim_exist = db.query(User).filter(User.nim == nim).first()
+    if nim_exist:
+        raise HTTPException(status_code=400, detail="NIM sudah digunakan untuk akun lain")
+
+    validate_password(req.password)
+    password_to_use = req.password[:72]
 
     user_exist = db.query(User).filter(User.email == email).first()
     if user_exist:
@@ -204,14 +213,13 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Username sudah digunakan")
 
     otp = str(random.randint(100000, 999999))
-    
-    # Gunakan password yang sudah dipotong
-    hashed_pw = hash_password(password_to_use) 
+    hashed_pw = hash_password(password_to_use)
 
     new_user = User(
         username=req.name,
         email=email,
         password=hashed_pw,
+        nim=nim,  # 🔹 simpan NIM
         otp_code=otp,
         is_verified=False
     )
@@ -219,9 +227,7 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
-    # 🔹 Kirim OTP ke email
     send_email_otp(email, otp)
-
     return {"message": notif}
 
 
