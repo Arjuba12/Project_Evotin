@@ -172,6 +172,9 @@ def send_email_otp(to_email: str, otp: str):
     try:
         response = api_instance.send_transac_email(email)
         print(f"✅ OTP dikirim ke {to_email}, Brevo messageId: {response.message_id}")
+        print(response)
+        print(response.__dict__)
+
     except ApiException as e:
         print(f"⚠️ Gagal kirim email ke {to_email} lewat Brevo: {e}")
 
