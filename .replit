@@ -23,7 +23,7 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "bash -c \"cd backend && uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload & cd frontend && npm run dev\""
+args = "bash -c \"unset DATABASE_URL && cd backend && uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload & cd frontend && npm run dev\""
 waitForPort = 5000
 
 [workflows.workflow.metadata]
@@ -44,5 +44,5 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "vm"
-run = ["bash", "-c", "cd backend && uvicorn app.main:app --host 0.0.0.0 --port 8000 & cd frontend && npm run dev -- --host 0.0.0.0 --port 5000"]
+run = ["bash", "-c", "unset DATABASE_URL && cd backend && uvicorn app.main:app --host 0.0.0.0 --port 8000 & cd frontend && npm run dev -- --host 0.0.0.0 --port 5000"]
 build = ["bash", "-c", "pip install -r backend/requirements.txt && cd frontend && npm install && npm run build"]
