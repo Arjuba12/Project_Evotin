@@ -17,7 +17,7 @@ export default function Navbar() {
       <nav className="navbar">
         <div className="logo">NEOVOTE</div>
 
-        {/* hamburger */}
+        {/* hamburger di kanan */}
         <div className="menu-icon" onClick={() => setIsOpen(true)}>
           ☰
         </div>
