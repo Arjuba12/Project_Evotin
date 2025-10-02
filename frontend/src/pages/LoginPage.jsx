@@ -33,7 +33,7 @@ export default function LoginPage() {
         }
 
         // Redirect ke /home tanpa reload full page
-        navigate("/connect-wallet");
+        navigate("/home");
       }
     } catch (err) {
       alert("⚠️ Gagal terhubung ke server!");
