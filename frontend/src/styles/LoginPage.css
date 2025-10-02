@@ -572,6 +572,17 @@ body {
     animation-delay: -4s;
 }
 
+/* Buat input autofill tetap rapi */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #111 inset !important;
+    /* ganti #111 sesuai background input kamu */
+    -webkit-text-fill-color: #fff !important;
+    /* teks tetap putih */
+    transition: background-color 5000s ease-in-out 0s;
+    /* biar gak kedip */
+}
+
+
 /* Step Effect */
 .step-indicator {
     display: flex;
