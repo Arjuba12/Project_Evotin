@@ -3,15 +3,12 @@
   justify-content: space-between;
   align-items: center;
   background: rgba(17, 17, 17, 0.95);
-  /* semi transparan */
   backdrop-filter: blur(8px);
-  /* blur belakang */
-  padding: 15px 40px;
+  padding: 15px 20px;
   width: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
   z-index: 1000;
   box-shadow: 0 4px 20px rgba(0, 255, 255, 0.3);
   border-bottom: 2px solid #0ff;
@@ -33,103 +30,34 @@
   padding: 0;
 }
 
-.nav-links li a {
-  color: #f0f0f0;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.nav-links li a::after {
-  content: "";
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  bottom: -4px;
-  left: 0;
-  background: #0ff;
-  transition: 0.3s;
-}
-
-.nav-links li a:hover::after {
-  width: 100%;
-}
-
-.nav-links li a:hover {
-  color: #0ff;
-  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-}
-
-.special-btn {
-  background: #f0f;
-  color: #fff;
-  padding: 8px 18px;
-  border-radius: 20px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 12px #f0f, 0 0 20px #f0f;
-  border: none;
-  cursor: pointer;
-}
-
-.special-btn:hover {
-  background: #c800c8;
-  box-shadow: 0 0 20px #f0f, 0 0 30px #f0f;
-  transform: scale(1.05);
-}
-
-/* =============== HAMBURGER MENU =============== */
-.hamburger {
-  font-size: 28px;
-  background: none;
-  border: none;
-  color: #0ff;
-  cursor: pointer;
+/* HAMBURGER MENU */
+.menu-icon {
   display: none;
-  z-index: 1100;
-  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-  transition: transform 0.3s ease;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #0ff;
 }
 
-.hamburger:hover {
-  transform: scale(1.2);
-}
-
-/* =============== RESPONSIVE DRAWER =============== */
+/* Responsive untuk layar kecil */
 @media (max-width: 768px) {
-  .hamburger {
+  .menu-icon {
     display: block;
   }
 
   .nav-links {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    height: 100%;
-    width: 250px;
-    background: rgba(17, 17, 17, 0.98);
-    backdrop-filter: blur(10px);
+    display: none;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    transition: right 0.4s ease;
-    box-shadow: -4px 0 20px rgba(0, 255, 255, 0.4);
+    gap: 15px;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: rgba(17, 17, 17, 0.95);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
   }
 
-  .nav-links.open {
-    right: 0;
-  }
-
-  .nav-links li a {
-    font-size: 1.2rem;
-    color: #f0f0f0;
-    text-shadow: 0 0 8px #0ff, 0 0 16px #0ff;
-  }
-
-  .special-btn {
-    padding: 10px 20px;
-    font-size: 1.1rem;
+  .nav-links.active {
+    display: flex;
   }
 }
