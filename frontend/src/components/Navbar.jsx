@@ -1,20 +1,27 @@
-import React from "react";
-import { useNavigate } from "react-router-dom"; // ✅ import navigate
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 
 export default function Navbar() {
-  const navigate = useNavigate(); // ✅ buat instance navigate
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // hapus token
-    navigate("/login");              // pindah ke login
-    window.location.reload();        // optional, biar langsung refresh juga
+    localStorage.removeItem("token");
+    navigate("/login");
+    window.location.reload();
   };
 
   return (
     <nav className="navbar">
       <div className="logo">NEOVOTE</div>
-      <ul className="nav-links">
+
+      {/* hamburger menu */}
+      <div className="menu-icon" onClick={() => setIsOpen(!isOpen)}>
+        ☰
+      </div>
+
+      <ul className={`nav-links ${isOpen ? "active" : ""}`}>
         <li>
           <a href="/home">Home</a>
         </li>
