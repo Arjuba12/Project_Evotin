@@ -174,6 +174,10 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
     email = req.email.strip().lower()
     validate_password(req.password)
 
+    # 📌 PERBAIKAN KRUSIAL: Memotong password agar tidak lebih dari 72 bytes
+    # Ini mengatasi error ValueError yang disebabkan oleh passlib/bcrypt.
+    password_to_use = req.password[:72] # Potong string di sini
+
     user_exist = db.query(User).filter(User.email == email).first()
     if user_exist:
         if user_exist.is_verified:
@@ -190,7 +194,9 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Username sudah digunakan")
 
     otp = str(random.randint(100000, 999999))
-    hashed_pw = hash_password(req.password)
+    
+    # Gunakan password yang sudah dipotong
+    hashed_pw = hash_password(password_to_use) 
 
     new_user = User(
         username=req.name,
@@ -206,7 +212,7 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
     # 🔹 Kirim OTP ke email
     send_email_otp(email, otp)
 
-    return {"message": notif}  # tidak perlu kirim OTP ke frontend
+    return {"message": notif}
 
 
 @app.post("/login")
