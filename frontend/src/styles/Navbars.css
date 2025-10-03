@@ -172,7 +172,7 @@
 
   /* Pastikan navbar masih flex */
   .navbar {
-        display: block !important; 
+        display: flex !important; 
         flex-direction: initial !important; 
         justify-content: space-between !important;
         align-items: center !important; 
