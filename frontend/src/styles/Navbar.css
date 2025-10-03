@@ -164,23 +164,24 @@
 /* 🔹 responsive: kalau mobile */
 @media (max-width: 768px) {
 
-  /* Navbar di mobile: pastikan padding tetap nyaman */
+  /* Pastikan navbar masih flex */
   .navbar {
+    display: flex !important;
+    /* MENGUNCI: Pastikan flex aktif */
+    justify-content: space-between !important;
+    align-items: center !important;
+    /* LOGO DAN IKON SEJAJAR */
     padding: 15px 15px;
-    /* Sedikit kurangi padding horizontal */
-    /* display: flex dan justify-content: space-between sudah diatur di global */
   }
 
-  /* 🔴 NAVLINKS: Sembunyikan */
+  /* Sembunyikan Nav Links */
   .nav-links {
-    display: none;
-    /* pastikan ini menimpa display: flex */
+    display: none !important;
   }
 
-  /* 🟢 MENU ICON: Tampilkan dan pastikan sejajar */
+  /* Tampilkan Menu Icon */
   .menu-icon {
     display: block !important;
-    /* Gunakan !important jika perlu, untuk menimpa konflik */
-    /* Pastikan line-height: 1 di global untuk menghindari spasi ekstra */
+    /* Tampil sebagai flex item normal */
   }
 }
