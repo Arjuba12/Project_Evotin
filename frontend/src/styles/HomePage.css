@@ -412,6 +412,22 @@ header-section {
 /* === Responsif ke mobile (max-width: 768px) === */
 @media (max-width: 768px) {
 
+  header-section {
+    margin: 12px;
+    padding: 6px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .homepage-title {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+
   /* 1. KARTU KANDIDAT: Ubah menjadi 1 kolom (sudah ada, pertahankan) */
   .card-container {
     grid-template-columns: repeat(1, minmax(280px, 1fr));
