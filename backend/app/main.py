@@ -89,13 +89,15 @@ class VotingPeriodResponse(VotingPeriodBase):
 class CandidateCreate(BaseModel):
     name: str
     image: str | None = None
-    visi_misi: str | None = None
+    visi: str | None = None
+    misi: str | None = None
 
 class CandidateResponse(BaseModel):
     id: int
     name: str
     image: str | None
-    visi_misi: str | None
+    visi: str | None = None
+    misi: str | None = None
 
 class Config:
         orm_mode = True
@@ -319,7 +321,7 @@ def resend_otp(req: ResendOTPRequest, db: Session = Depends(database.get_db)):
 # ✅ CREATE kandidat
 @app.post("/candidates", response_model=CandidateResponse)
 def add_candidate(req: CandidateCreate, db: Session = Depends(database.get_db)):
-    candidate = models.Candidate(name=req.name, image=req.image, visi_misi=req.visi_misi)
+    candidate = models.Candidate(name=req.name, image=req.image, visi=req.visi, misi=req.misi)
     db.add(candidate)
     db.commit()
     db.refresh(candidate)
@@ -351,7 +353,8 @@ def update_candidate(candidate_id: int, req: CandidateCreate, db: Session = Depe
 
     candidate.name = req.name
     candidate.image = req.image
-    candidate.visi_misi = req.visi_misi
+    candidate.visi= req.visi
+    candidate.misi= req.misi
 
     db.commit()
     db.refresh(candidate)

@@ -5,6 +5,7 @@
   cursor: pointer;
 }
 
+/* Inner container dengan efek flip */
 .card-inner {
   position: relative;
   width: 100%;
@@ -17,6 +18,7 @@
   transform: rotateY(180deg);
 }
 
+/* Sisi depan & belakang */
 .card-front,
 .card-back {
   position: absolute;
@@ -27,12 +29,14 @@
   border-radius: 12px;
   box-shadow: 0 0 20px #0ff;
   overflow: hidden;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+/* ----- FRONT ----- */
 .card-front {
   background: linear-gradient(145deg, #111, #222);
 }
@@ -52,11 +56,14 @@
   font-size: 1.2em;
 }
 
+/* ----- BACK ----- */
 .card-back {
   background: linear-gradient(145deg, #222, #111);
   transform: rotateY(180deg);
   padding: 20px;
   text-align: center;
+  overflow-y: auto;
+  /* biar teks panjang tetap bisa scroll */
 }
 
 .card-back h4 {
@@ -68,4 +75,20 @@
   font-size: 0.9em;
   color: #ddd;
   line-height: 1.4;
+  margin: 0 0 10px;
+}
+
+/* List untuk Misi */
+.card-back ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  text-align: left;
+  color: #ddd;
+  font-size: 0.9em;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.card-back ul li {
+  margin-bottom: 6px;
 }

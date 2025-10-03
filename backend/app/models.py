@@ -18,8 +18,10 @@ class Candidate(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     image = Column(String, nullable=True)      # URL gambar
-    visi_misi = Column(String, nullable=True)  # teks visi misi
+    visi = Column(String, nullable=True)       # 🔹 1 teks panjang
+    misi = Column(String, nullable=True)       # 🔹 Simpan JSON/dipisah dengan delimiter (misalnya ';')
     votes = relationship("Vote", back_populates="candidate")
+
 
 class Vote(Base):
     __tablename__ = "votes"

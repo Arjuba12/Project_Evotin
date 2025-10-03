@@ -135,7 +135,7 @@ export default function HomePage() {
   return (
     <div className="homepage">
       <div className="header-section">
-        <h1 className="homepage-title">NEOVOTE GOVERNANCE DAPP</h1>
+        <h1 className="homepage-title">GOVERNANCE APP</h1>
         <h2 className="homepage-subtitle">
           Voting Cepat, Transparan, dan Aman
         </h2>
