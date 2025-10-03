@@ -198,7 +198,7 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
     validate_password(req.password)
     password_to_use = req.password[:72]
 
-    # 4. Cek email
+    # 4. Cek apakah email sudah ada
     user_exist = db.query(User).filter(User.email == email).first()
     if user_exist:
         if user_exist.is_verified:
@@ -209,6 +209,11 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
             notif = "⚠️ Akun lama belum diverifikasi, data lama dihapus & OTP baru dikirim."
     else:
         notif = "✅ Akun baru berhasil dibuat & OTP dikirim."
+
+    # 🔹 4b. Cek apakah NIM sudah ada di tabel users (biar tidak kena unique constraint)
+    nim_exist = db.query(User).filter(User.nim == nim).first()
+    if nim_exist:
+        raise HTTPException(status_code=400, detail="NIM sudah digunakan untuk akun lain")
 
     # 5. Cek username
     username_exist = db.query(User).filter(User.username == req.name).first()
@@ -239,6 +244,7 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
     # 9. Kirim OTP
     send_email_otp(email, otp)
     return {"message": notif}
+
 
 
 
