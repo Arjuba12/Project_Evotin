@@ -37,8 +37,8 @@ export default function Navbar() {
 
         {/* hamburger di kanan (hanya muncul di mobile via CSS) */}
         <div className="menu-icon" onClick={() => setIsOpen(true)}>
-          ☰
-        </div>
+          <span>☰</span> {/* WRAP IKON TEKS DI DALAM SPAN */}
+        </div>
       </nav>
 
       {/* overlay */}
