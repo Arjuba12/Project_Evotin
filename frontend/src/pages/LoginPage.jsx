@@ -10,6 +10,8 @@ export default function LoginPage() {
   const [remember, setRemember] = useState(false); // ✅ state untuk checkbox
   const navigate = useNavigate();
 
+  const [showPassword, setShowPassword] = useState(false); // ✅ state toggle
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -28,7 +30,6 @@ export default function LoginPage() {
       } else {
         alert(`✅ ${data.message || "Login berhasil"}`);
 
-        
         // Simpan token (yang dikirim backend, misalnya data.access_token)
         if (data.access_token) {
           localStorage.setItem("token", data.access_token);
@@ -79,7 +80,7 @@ export default function LoginPage() {
           <div className="form-group">
             <div className="input-wrapper password-wrapper">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 required
@@ -88,7 +89,64 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <label htmlFor="password">Password</label>
-              
+
+              {/* Ikon toggle */}
+              <span
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  // 👁 Ikon open eye
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="white"
+                    width="20"
+                    height="20"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                ) : (
+                  // 🚫 Ikon eye-off
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="white"
+                    width="20"
+                    height="20"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7
+                          a10.05 10.05 0 012.042-3.442m3.7-2.82A9.956 9.956 0 0112 5c4.477 0
+                          8.268 2.943 9.542 7a9.956 9.956 0 01-4.132 5.411M15 12a3 3 0 11-6
+                          0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 3l18 18"
+                    />
+                  </svg>
+                )}
+              </span>
+
               <span className="input-line"></span>
             </div>
             <span className="error-message" id="passwordError"></span>
@@ -102,8 +160,8 @@ export default function LoginPage() {
                 Keep me signed in
               </label>
             </div>
-            <a href="#" className="forgot-password">
-              Forgot password?
+            <a href="/about" className="forgot-link">
+              Forgot password? 
             </a>
           </div>
 
