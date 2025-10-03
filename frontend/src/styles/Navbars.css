@@ -1,4 +1,15 @@
 /* styles/Navbar.css */
+/* Dalam file CSS Anda (misalnya: styles/Navbars.css) */
+
+body {
+    /* 🟢 Menghilangkan highlight biru/abu-abu saat sentuhan di mobile */
+    -webkit-tap-highlight-color: transparent; 
+    
+    /* Juga pertimbangkan untuk menargetkan elemen umum yang diklik */
+    /* Opsional, tapi seringkali membantu: */
+    user-select: none;
+    -webkit-user-select: none;
+}
 
 .navbar {
   display: flex;
