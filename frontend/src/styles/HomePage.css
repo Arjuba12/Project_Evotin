@@ -137,43 +137,96 @@ header-section {
 }
 
 /* === Depan kartu === */
+/* === Depan kartu === */
 .card-front {
   background: linear-gradient(145deg, #111, #1a1a1a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  /* biar isi mulai dari atas */
+  padding: 10px;
 }
 
 .card-front img {
-  width: 100%;
-  height: 70%;
+  width: 90%;
+  height: auto;
+  /* biar proporsional */
+  margin-top: -10px;
+  /* angkat dikit ke atas */
+  border-radius: 10px;
   object-fit: cover;
-  border-bottom: 2px solid #0ff;
+  box-shadow: 0 0 15px #0ff;
+  /* efek glow dikit */
 }
 
 .card-front h3 {
-  margin: 10px 0 0;
+  margin-top: 8px;
+  /* jarak lebih kecil */
   color: #0ff;
   font-size: 1.2em;
   text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
 }
 
-/* === Belakang kartu === */
+/* === Belakang kartu (Visi Misi) === */
 .card-back {
   background: linear-gradient(145deg, #1a1a1a, #111);
   transform: rotateY(180deg);
   padding: 20px;
   text-align: left;
   color: #ddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* biar teks mulai dari atas */
+  align-items: flex-start;
 }
 
 .card-back h4 {
   color: #f0f;
   margin-bottom: 10px;
-  text-shadow: 0 0 10px #f0f, 0 0 20px #f0f;
+  font-size: 1.2rem;
+  text-shadow: 0 0 8px #f0f, 0 0 15px #f0f;
+  /* glow neon */
 }
 
 .card-back p {
-  font-size: 0.95em;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.6;
   color: #ccc;
+  margin-bottom: 10px;
+  text-shadow: 0 0 5px #0ff;
+  /* biar lebih timbul */
+}
+
+.card-back {
+  background: linear-gradient(145deg, #1a1a1a, #111);
+  transform: rotateY(180deg);
+  padding: 20px;
+  text-align: left;
+  color: #ddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* biar teks mulai dari atas */
+  align-items: flex-start;
+}
+
+.card-back h4 {
+  color: #f0f;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  text-shadow: 0 0 8px #f0f, 0 0 15px #f0f;
+  /* glow neon */
+}
+
+.card-back p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ccc;
+  margin-bottom: 10px;
+  text-shadow: 0 0 5px #0ff;
+  /* biar lebih timbul */
 }
 
 /* === Wrapper kandidat (kartu + tombol) === */
