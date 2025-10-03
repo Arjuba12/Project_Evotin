@@ -137,15 +137,8 @@ header-section {
 }
 
 /* === Depan kartu === */
-/* === Depan kartu === */
 .card-front {
   background: linear-gradient(145deg, #111, #1a1a1a);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  /* biar isi mulai dari atas */
-  padding: 10px;
 }
 
 .card-front img {
@@ -156,77 +149,35 @@ header-section {
   /* angkat dikit ke atas */
   border-radius: 10px;
   object-fit: cover;
-  box-shadow: 0 0 15px #0ff;
-  /* efek glow dikit */
+  border-bottom: 2px solid #0ff;
 }
 
 .card-front h3 {
-  margin-top: 8px;
-  /* jarak lebih kecil */
+  margin: 10px 0 0;
   color: #0ff;
   font-size: 1.2em;
   text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
 }
 
-/* === Belakang kartu (Visi Misi) === */
+/* === Belakang kartu === */
 .card-back {
   background: linear-gradient(145deg, #1a1a1a, #111);
   transform: rotateY(180deg);
   padding: 20px;
   text-align: left;
   color: #ddd;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  /* biar teks mulai dari atas */
-  align-items: flex-start;
 }
 
 .card-back h4 {
   color: #f0f;
   margin-bottom: 10px;
-  font-size: 1.2rem;
-  text-shadow: 0 0 8px #f0f, 0 0 15px #f0f;
-  /* glow neon */
+  text-shadow: 0 0 10px #f0f, 0 0 20px #f0f;
 }
 
 .card-back p {
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 0.95em;
+  line-height: 1.5;
   color: #ccc;
-  margin-bottom: 10px;
-  text-shadow: 0 0 5px #0ff;
-  /* biar lebih timbul */
-}
-
-.card-back {
-  background: linear-gradient(145deg, #1a1a1a, #111);
-  transform: rotateY(180deg);
-  padding: 20px;
-  text-align: left;
-  color: #ddd;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  /* biar teks mulai dari atas */
-  align-items: flex-start;
-}
-
-.card-back h4 {
-  color: #f0f;
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-  text-shadow: 0 0 8px #f0f, 0 0 15px #f0f;
-  /* glow neon */
-}
-
-.card-back p {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #ccc;
-  margin-bottom: 10px;
-  text-shadow: 0 0 5px #0ff;
-  /* biar lebih timbul */
 }
 
 /* === Wrapper kandidat (kartu + tombol) === */
