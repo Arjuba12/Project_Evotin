@@ -167,28 +167,46 @@ body {
     width: 100%;
 }
 
-/* Password Toggle */
+/* Password Toggle - diperbaiki posisi & warna */
 .password-wrapper input {
-    padding-right: 50px;
+    padding-right: 50px; /* cukup space untuk icon */
 }
 
 .password-toggle {
     position: absolute;
-    right: 16px;
+    right: 12px; /* geser lebih ke kanan */
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
-    padding: 8px;
-    color: #a0a0b0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 6px; /* lebih kecil dari sebelumnya */
+    color: #ffffff; /* lebih kontras */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
     border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .password-toggle:hover {
-    color: #00ff88;
-    background: rgba(0, 255, 136, 0.1);
+    color: #00ff88; /* neon saat hover */
+    background: rgba(0, 255, 136, 0.15); /* glow halus saat hover */
+}
+
+.toggle-icon {
+    width: 22px; /* sedikit lebih besar */
+    height: 22px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.6)); /* glow halus supaya terlihat */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.password-toggle:hover .toggle-icon {
+    filter: drop-shadow(0 0 5px rgba(0, 255, 136, 0.8)); /* glow neon saat hover */
 }
 
 .toggle-icon {
@@ -200,14 +218,6 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.password-toggle:hover .toggle-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2300ff88' stroke-width='2'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'/%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'/%3e%3c/svg%3e");
-}
-
-.toggle-icon.show-password {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a0a0b0' stroke-width='2'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 11-4.243-4.243m4.242 4.242L9.88 9.88'/%3e%3c/svg%3e");
 }
 
 /* Form Options */
