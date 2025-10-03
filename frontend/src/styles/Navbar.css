@@ -172,7 +172,8 @@
 
   /* Pastikan navbar masih flex */
   .navbar {
-        display: flex !important;
+        display: block !important; 
+        flex-direction: initial !important; 
         justify-content: space-between !important;
         align-items: center !important; 
         padding: 15px 15px;
@@ -186,5 +187,5 @@
   .nav-links {
     display: none !important;
   }
-  
+
 }
