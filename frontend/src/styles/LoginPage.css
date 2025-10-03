@@ -692,26 +692,65 @@ input:-webkit-autofill {
     }
 }
 
-
 /* Mobile Responsive */
 @media (max-width: 480px) {
     body {
-        padding: 10px;
+        /* Kurangi padding body total */
+        padding: 0; 
+    }
+
+    .login-container {
+        /* Biarkan container mengambil lebar penuh di mobile */
+        max-width: 100%;
     }
 
     .login-card {
-        /* Bikin padding lebih kecil agar form tidak terlalu penuh di layar 360px */
-        padding: 24px; 
-        margin: 10px;
+        /* Hapus margin 10px dan ganti dengan padding 20px */
+        /* Ini membuat card menyentuh tepi layar (padding 0 di body), */
+        /* tetapi konten di dalamnya tetap memiliki ruang napas 20px. */
+        padding: 30px 20px; /* Padding atas/bawah 30px, kiri/kanan 20px */
+        margin: 0;
+        border-radius: 0; /* Hapus border-radius di layar penuh mobile */
+        
+        /* Tambahkan min-height agar card mengisi viewport, menghilangkan scroll */
+        min-height: 100vh;
+        
+        /* Hilangkan bayangan untuk performa dan tampilan mobile */
+        box-shadow: none; 
+        border: none;
+    }
+
+    .login-header {
+        margin-bottom: 30px; /* Sedikit kurangi margin header */
     }
 
     .login-header h2 {
-        font-size: 1.75rem;
+        font-size: 1.5rem; /* Ukuran font lebih kecil */
+    }
+    
+    .login-header p {
+        font-size: 14px;
     }
 
+    .input-wrapper {
+        margin-bottom: 20px; /* Kurangi jarak antar input */
+    }
+    
     .input-wrapper input {
-        /* Kurangi padding input dari 24px (desktop) menjadi 16px (mobile) */
-        padding: 16px; 
+        padding: 14px 16px; /* Padding input lebih kecil lagi */
+    }
+    
+    /* Koreksi floating label agar sesuai dengan padding 14px */
+    .input-wrapper label {
+        top: 14px; /* Sesuaikan dengan padding top input */
+    }
+
+    .input-wrapper input:focus + label,
+    .input-wrapper input:valid + label {
+        /* Gerakan ke atas disesuaikan untuk padding 14px */
+        transform: translateY(-22px) translateX(4px) scale(0.85); 
+        color: #00ff88; 
+        font-weight: 500;
     }
 
     .password-wrapper input {
@@ -721,39 +760,37 @@ input:-webkit-autofill {
     .form-options {
         flex-direction: column;
         align-items: flex-start;
-        gap: 16px;
-    }
-
-    .glow-orb {
-        opacity: 0.5;
+        gap: 12px;
+        margin-bottom: 24px;
     }
     
-    /* 1. KOREKSI POSISI LABEL AWAL */
-    .input-wrapper label {
-        /* Atur top 16px agar sejajar dengan input yang padding-nya 16px */
-        /* (24px pada desktop, 16px di mobile) */
-        top: 16px; 
-    }
-
-    /* 2. KOREKSI PERGERAKAN FLOATING LABEL */
-    .input-wrapper input:focus + label,
-    .input-wrapper input:valid + label {
-        /* Atur label untuk bergerak ke atas hanya -24px (sekitar setengah dari padding + tinggi font) */
-        transform: translateY(-24px) translateX(4px) scale(0.85); 
-        color: #00ff88; 
-        font-weight: 500;
-    }
+    /* ... (kode responsive lainnya) ... */
     
-    /* Tambahkan pengaturan font size untuk kenyamanan di mobile */
-    .login-header p,
-    .signup-link p,
-    .remember-wrapper .checkbox-label {
-        font-size: 14px;
-    }
-
-    /* Optimasi tombol untuk mobile */
     .login-btn {
-        padding: 18px 32px; /* Sedikit lebih kecil dari desktop (24px) */
+        padding: 16px 32px; /* Tombol lebih ramping */
         font-size: 15px;
+    }
+    
+    .divider {
+        margin: 24px 0 20px; /* Kurangi margin divider */
+    }
+    
+    /* Pastikan background effect tidak mengganggu */
+    .glow-orb {
+        opacity: 0.3;
+        /* Ukuran glow orb bisa disesuaikan lagi jika mengganggu */
+        width: 150px; 
+        height: 150px; 
+    }
+    
+    /* Tambahkan pengaturan untuk membuat body (dan container) penuh layar */
+    body {
+        display: block; /* Non-aktifkan flex container centering */
+    }
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        justify-content: center; /* Push content to center vertically if needed */
     }
 }
