@@ -346,8 +346,8 @@ body {
 
 .info-voting h2,
 .aturan h2 {
-  color:  #f0f;
-  text-shadow: 0 0 5px  #f0f, 0 0 10px #0ff;
+  color: #f0f;
+  text-shadow: 0 0 5px #f0f, 0 0 10px #0ff;
   margin-bottom: 10px;
 }
 
@@ -375,8 +375,8 @@ body {
 }
 
 .statistik h2 {
-  color:  #f0f;
-  text-shadow: 0 0 5px  #f0f, 0 0 10px #0ff;
+  color: #f0f;
+  text-shadow: 0 0 5px #f0f, 0 0 10px #0ff;
   margin-bottom: 10px;
 }
 
@@ -404,8 +404,123 @@ body {
 
 
 /* === Responsif ke mobile === */
+/* === Responsif ke mobile (max-width: 768px) === */
 @media (max-width: 768px) {
+
+  /* 1. KARTU KANDIDAT: Ubah menjadi 1 kolom (sudah ada, pertahankan) */
   .card-container {
     grid-template-columns: repeat(1, minmax(280px, 1fr));
+    gap: 20px;
+    /* Kurangi jarak antar kartu */
+    padding: 0 15px;
+    /* Tambahkan padding agar kartu tidak menempel di tepi */
+  }
+
+  /* 2. SECTION GRID: Ubah menjadi 1 kolom */
+  .section-grid {
+    grid-template-columns: 1fr;
+    /* Ubah dari 2 kolom menjadi 1 */
+    gap: 20px;
+    padding: 0 15px;
+    /* Tambahkan padding horizontal */
+    margin: 30px auto;
+  }
+
+  .aturan {
+    grid-column: span 1;
+    /* Pastikan aturan tidak memakan 2 kolom */
+  }
+
+  /* 3. CARD SIZE: Kecilkan tinggi kartu agar lebih ringkas */
+  .card, .card-inner {
+    height: 320px;
+  }
+
+  /* 4. COUNTDOWN: Lebih ringkas */
+  .countdown {
+    padding: 15px;
+    margin: 30px 15px;
+  }
+
+  .countdown-timer {
+    gap: 15px;
+    /* Kurangi jarak antar jam */
+  }
+
+  .countdown-timer div {
+    min-width: 60px;
+    padding: 10px;
+  }
+
+  .countdown-timer span {
+    font-size: 1.5rem;
+    /* Ukuran jam lebih kecil */
+  }
+
+  .countdown h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* === Optimasi Ekstra Mobile (max-width: 480px) untuk 360px width === */
+@media (max-width: 480px) {
+
+  /* BODY: Hilangkan Padding Top yang besar, andalkan Navbar Fixed/Sticky */
+  body {
+    padding-top: 0 !important;
+  }
+
+  /* HEADER: Kecilkan ukuran font agar hemat ruang vertikal */
+  .homepage-title {
+    font-size: 2rem;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .homepage-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  /* CONTAINER: Kurangi padding horizontal agar konten lebar penuh */
+  .container {
+    padding: 10px;
+  }
+
+  /* CARD: Pastikan padding konten kartu optimal */
+  .card-back {
+    padding: 15px;
+  }
+
+  .card-front h3 {
+    font-size: 1.1em;
+  }
+
+  /* VOTE BUTTON: Lebih ramping */
+  .vote-btn {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+  }
+
+  /* INFO/STATISTIK/ATURAN: Kurangi padding konten */
+  .info-voting, .statistik, .aturan {
+    padding: 15px;
+    margin-top: 25px;
+  }
+
+  .info-voting h2, .statistik h2, .aturan h2 {
+    font-size: 1.2rem;
+  }
+
+  /* FOOTER */
+  .footer {
+    font-size: 0.8rem;
+  }
+
+  /* OVERFLOW HORIZONTAL SAFEGUARD */
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
