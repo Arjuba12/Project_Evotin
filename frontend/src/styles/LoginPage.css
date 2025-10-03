@@ -710,7 +710,7 @@ input:-webkit-autofill {
         justify-content: initial;
 
         /* SOLUSI OVERFLOW: Matikan semua scrolling di mobile */
-        overflow: hidden;
+        overflow: auto;
         width: 100%;
         min-height: 100vh;
         /* Tambahkan kembali jika Anda menghapus dari body global */
