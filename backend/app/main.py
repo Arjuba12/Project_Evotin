@@ -185,15 +185,16 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
     email = req.email.strip().lower()
     nim = req.nim.strip()
 
-    # Validasi format NIM (contoh: hanya angka dan panjang 10 digit)
-    if not nim.isdigit() or len(nim) != 10:
-        raise HTTPException(status_code=400, detail="NIM harus berupa 10 digit angka")
+# 1. Validasi NIM ada di tabel mahasiswa
+    mahasiswa = db.query(models.Mahasiswa).filter(models.Mahasiswa.nim == nim).first()
+    
+    if not mahasiswa:
+        raise HTTPException(status_code=400, detail="NIM tidak terdaftar di database mahasiswa")
 
-    # Cek apakah NIM sudah terdaftar
-    nim_exist = db.query(User).filter(User.nim == nim).first()
-    if nim_exist:
+    # 2. Cek apakah mahasiswa sudah dipakai buat akun
+    if mahasiswa.sudah_mendaftar:
         raise HTTPException(status_code=400, detail="NIM sudah digunakan untuk akun lain")
-
+    
     validate_password(req.password)
     password_to_use = req.password[:72]
 

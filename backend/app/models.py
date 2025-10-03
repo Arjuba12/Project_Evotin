@@ -21,7 +21,6 @@ class Candidate(Base):
     visi_misi = Column(String, nullable=True)  # teks visi misi
     votes = relationship("Vote", back_populates="candidate")
 
-
 class Vote(Base):
     __tablename__ = "votes"
     id = Column(Integer, primary_key=True, index=True)
@@ -33,8 +32,16 @@ class Vote(Base):
     __table_args__ = (
         UniqueConstraint("user_id", name="unique_user_vote"),  # ⛔ user hanya bisa 1x vote
     )
+    
 class VotingPeriod(Base):
     __tablename__ = "voting_periods"
     id = Column(Integer, primary_key=True, index=True)
     start_date = Column(DateTime(timezone=True), nullable=False, default=datetime.datetime.utcnow)
     end_date = Column(DateTime(timezone=True), nullable=False)
+
+class Mahasiswa(Base):
+    __tablename__ = "mahasiswa"
+
+    nim = Column(String, primary_key=True, index=True)
+    nama = Column(String)
+    sudah_mendaftar = Column(Boolean, default=False)
