@@ -199,6 +199,28 @@ body {
     transition: transform 0.3s ease;
   }
 
+  .sidebar-menu li a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    background: rgba(0, 255, 255, 0.1);
+    /* soft neon cyan bg */
+    color: #0ff;
+    /* neon cyan text */
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.3s ease;
+  }
+
+  .sidebar-menu li a:hover {
+    background: rgba(0, 255, 255, 0.25);
+    /* hover lebih terang */
+    color: #fff;
+    /* teks jadi putih pas hover */
+  }
+
   .sidebar.open {
     transform: translateX(0);
     /* muncul saat open */
@@ -242,11 +264,11 @@ body {
   .logout-section {
     margin-top: auto;
     /* dorong ke bawah */
-    padding-top: 20px;
+    padding-top: 360px;
   }
 
   .logout-section .special-btn {
-    width: 100%;
+    width: 60%;
     padding: 10px;
     border-radius: 8px;
     background: #e63946;
