@@ -186,13 +186,17 @@ body {
   visibility: visible;
 }
 
-/* 🔹 responsive: kalau mobile */
 @media (max-width: 768px) {
 
   .sidebar {
-    display: block;
+    display: flex;
+    /* jadi flex container */
+    flex-direction: column;
+    /* vertikal */
+    justify-content: flex-start;
     transform: translateX(-100%);
-    /* tetap hidden by default */
+    /* tetap hidden */
+    transition: transform 0.3s ease;
   }
 
   .sidebar.open {
@@ -207,7 +211,7 @@ body {
   /* Navbar tetap menggunakan flex untuk logo/ikon */
   .navbar {
     display: flex !important;
-    flex-direction: initial !important;
+    flex-direction: row !important;
     justify-content: space-between !important;
     align-items: center !important;
     padding: 15px 15px;
@@ -217,9 +221,42 @@ body {
     display: block;
   }
 
-  /* Sembunyikan Nav Links */
+  /* Sembunyikan Nav Links di mobile */
   .nav-links {
     display: none;
   }
 
+  /* 🔹 Menu drawer */
+  .sidebar-menu {
+    flex: 1;
+    /* isi ruang kosong */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-menu li {
+    margin: 10px 0;
+  }
+
+  /* 🔹 Logout dipaksa ke bawah */
+  .logout-section {
+    margin-top: auto;
+    /* dorong ke bawah */
+    padding-top: 20px;
+  }
+
+  .logout-section .special-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background: #e63946;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+
+  .logout-section .special-btn:hover {
+    background: #d62839;
+  }
 }

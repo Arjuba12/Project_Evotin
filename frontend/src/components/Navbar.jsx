@@ -69,7 +69,8 @@ export default function Navbar() {
         <div className="sidebar-header">
           <h2>Welcome</h2>
         </div>
-        <ul>
+
+        <ul className="sidebar-menu">
           <li>
             <a href="/home">Home</a>
           </li>
@@ -79,7 +80,9 @@ export default function Navbar() {
           <li>
             <a href="/profile">Profile</a>
           </li>
-          <li>
+
+          {/* Logout dipisah di bawah */}
+          <li className="logout-section">
             <button onClick={handleLogout} className="special-btn">
               Logout
             </button>
