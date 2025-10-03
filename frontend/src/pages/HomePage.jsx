@@ -247,6 +247,7 @@ export default function HomePage() {
       </div>
       <footer className="footer">
         <p>© 2025 NEOVOTE - Sistem Voting Terdesentralisasi</p>
+        <p>© 2025 ARJUNA. All rights reserved.</p>
       </footer>
 
       <div className="background-effects">
