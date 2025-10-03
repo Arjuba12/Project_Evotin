@@ -412,7 +412,7 @@ header-section {
 /* === Responsif ke mobile (max-width: 768px) === */
 @media (max-width: 768px) {
 
-  header-section {
+  .header-section {
     margin: 12px;
     padding: 6px;
     text-align: center;
