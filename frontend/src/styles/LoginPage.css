@@ -665,10 +665,9 @@ input:-webkit-autofill {
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    color: white;
-    /* pastikan putih */
-    display: flex;
-    align-items: center;
+    user-select: none;
+    color: #fff;
+    /* 🔹 icon mata jadi putih */
 }
 
 .password-toggle svg {
