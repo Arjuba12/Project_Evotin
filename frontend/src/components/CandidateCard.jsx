@@ -18,8 +18,7 @@ export default function CandidateCard({ image, name, visi, misi }) {
         <div className="card-back">
           <h4>Visi</h4>
           <p>{visi}</p>
-
-          <h4 style={{ marginTop: "15px" }}>Misi</h4>
+          
           <ul>
             {misiList.map((item, index) => (
               <li key={index}>{item}</li>
