@@ -169,19 +169,23 @@ body {
 
 /* Password Toggle - diperbaiki posisi & warna */
 .password-wrapper input {
-    padding-right: 50px; /* cukup space untuk icon */
+    padding-right: 50px;
+    /* cukup space untuk icon */
 }
 
 .password-toggle {
     position: absolute;
-    right: 12px; /* geser lebih ke kanan */
+    right: 12px;
+    /* geser lebih ke kanan */
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
-    padding: 6px; /* lebih kecil dari sebelumnya */
-    color: #ffffff; /* lebih kontras */
+    padding: 6px;
+    /* lebih kecil dari sebelumnya */
+    color: #ffffff;
+    /* lebih kontras */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -191,22 +195,27 @@ body {
 }
 
 .password-toggle:hover {
-    color: #00ff88; /* neon saat hover */
-    background: rgba(0, 255, 136, 0.15); /* glow halus saat hover */
+    color: #00ff88;
+    /* neon saat hover */
+    background: rgba(0, 255, 136, 0.15);
+    /* glow halus saat hover */
 }
 
 .toggle-icon {
-    width: 22px; /* sedikit lebih besar */
+    width: 22px;
+    /* sedikit lebih besar */
     height: 22px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.6)); /* glow halus supaya terlihat */
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.6));
+    /* glow halus supaya terlihat */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .password-toggle:hover .toggle-icon {
-    filter: drop-shadow(0 0 5px rgba(0, 255, 136, 0.8)); /* glow neon saat hover */
+    filter: drop-shadow(0 0 5px rgba(0, 255, 136, 0.8));
+    /* glow neon saat hover */
 }
 
 .toggle-icon {
@@ -646,6 +655,34 @@ input:-webkit-autofill {
     border-radius: 2px;
 }
 
+.password-wrapper {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: white;
+    /* pastikan putih */
+    display: flex;
+    align-items: center;
+}
+
+.password-toggle svg {
+    stroke: white;
+    /* ikon garis putih */
+    transition: 0.2s ease;
+}
+
+.password-toggle:hover svg {
+    stroke: #0ff;
+    /* glow saat hover */
+}
+
+
 
 /* Animations */
 @keyframes pulse {
@@ -712,39 +749,43 @@ input:-webkit-autofill {
 
 /* Mobile Responsive */
 @media (max-width: 480px) {
-  html, body {
+    html, body {
         /* Hapus overflow: hidden! */
-        overflow-y: auto !important; /* ⬅️ KRITIS: Izinkan scrolling vertikal */
-        overflow-x: hidden !important; /* Pertahankan horizontal hidden */
-        
+        overflow-y: auto !important;
+        /* ⬅️ KRITIS: Izinkan scrolling vertikal */
+        overflow-x: hidden !important;
+        /* Pertahankan horizontal hidden */
+
         /* Hapus min-height: 100vh! */
-        min-height: initial !important; /* ⬅️ KRITIS: Biarkan tinggi konten yang menentukan */
-        height: auto !important; /* Pastikan height juga fleksibel */
-        
+        min-height: initial !important;
+        /* ⬅️ KRITIS: Biarkan tinggi konten yang menentukan */
+        height: auto !important;
+        /* Pastikan height juga fleksibel */
+
         /* Pertahankan ini untuk menghilangkan longkang */
-        padding: 0 !important; 
+        padding: 0 !important;
         margin: 0 !important;
-        display: block !important; 
+        display: block !important;
     }
 
     .login-container {
         max-width: 100%;
         width: 100%;
         /* Hapus min-height: 100vh di sini */
-        min-height: initial; 
-        
+        min-height: initial;
+
         /* Tambahkan padding bawah agar tombol Sign Up tidak mepet tepi */
-        padding-bottom: 30px; 
+        padding-bottom: 30px;
     }
 
     .login-card {
         /* Kurangi padding atas/bawah agar lebih ringkas */
-        padding: 40px 20px; 
+        padding: 40px 20px;
         margin: 0;
         border-radius: 0;
         /* Hapus min-height: 100vh di sini */
-        min-height: initial; 
-        box-shadow: none; 
+        min-height: initial;
+        box-shadow: none;
         border: none;
     }
 
