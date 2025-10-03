@@ -4,8 +4,8 @@ import "../styles/CandidateCard.css";
 export default function CandidateCard({ image, name, visi, misi }) {
   const [flipped, setFlipped] = useState(false);
 
-  // pastikan misi sudah array, kalau masih string JSON parse dulu
-  const misiList = Array.isArray(misi) ? misi : JSON.parse(misi || "[]");
+  // langsung pakai array kalau sudah dikirim array
+  const misiList = Array.isArray(misi) ? misi : [];
 
   return (
     <div className="card" onClick={() => setFlipped(!flipped)}>
