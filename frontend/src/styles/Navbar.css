@@ -23,11 +23,17 @@
   cursor: pointer;
   color: #0ff;
   display: none;
-  /* Tambahkan line-height: 1 untuk memastikan ikon tidak memiliki spasi vertikal berlebihan
-       yang mendorong elemen lain turun */
   line-height: 1;
   padding: 0;
-  /* Hapus padding yang mungkin mendorong logo */
+  margin: 0;
+}
+
+/* KOREKSI KRITIS: Teks di dalam ikon */
+.menu-icon span {
+  /* Paksa teks ikon menjadi elemen tunggal, mencegah line breaks aneh */
+  display: inline-block;
+  /* Hilangkan spasi vertikal yang memisahkannya dari logo */
+  vertical-align: middle;
 }
 
 .logo {
@@ -166,22 +172,19 @@
 
   /* Pastikan navbar masih flex */
   .navbar {
-    display: flex !important;
-    /* MENGUNCI: Pastikan flex aktif */
-    justify-content: space-between !important;
-    align-items: center !important;
-    /* LOGO DAN IKON SEJAJAR */
-    padding: 15px 15px;
-  }
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important; 
+        padding: 15px 15px;
+    }
+    
+    .menu-icon {
+        display: block !important; 
+    }
 
   /* Sembunyikan Nav Links */
   .nav-links {
     display: none !important;
   }
-
-  /* Tampilkan Menu Icon */
-  .menu-icon {
-    display: block !important;
-    /* Tampil sebagai flex item normal */
-  }
+  
 }
