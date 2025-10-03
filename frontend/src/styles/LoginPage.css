@@ -824,18 +824,4 @@ input:-webkit-autofill {
         width: 150px;
         height: 150px;
     }
-
-    /* Tambahkan pengaturan untuk membuat body (dan container) penuh layar */
-    body {
-        display: block;
-        /* Non-aktifkan flex container centering */
-    }
-
-    .login-container {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        justify-content: center;
-        /* Push content to center vertically if needed */
-    }
 }
