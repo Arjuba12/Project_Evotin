@@ -738,12 +738,11 @@ input:-webkit-autofill {
         width: 100%;
         /* Pastikan 100% width */
         min-height: 100vh;
-        margin: 10px;
         /* Pastikan tidak ada padding/margin di sini yang mendorong overflow */
     }
 
     .login-card {
-        padding: 30px 20px;
+        padding: 60px 40px;
         margin: 0;
         border-radius: 0;
         min-height: 100vh;
