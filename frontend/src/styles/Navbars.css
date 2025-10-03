@@ -197,12 +197,12 @@ body {
   }
 
   .menu-icon {
-    display: block !important;
+    display: block ;
   }
 
   /* Sembunyikan Nav Links */
   .nav-links {
-    display: none !important;
+    display: none ;
   }
 
 }
