@@ -702,48 +702,39 @@ input:-webkit-autofill {
 
 /* Mobile Responsive */
 @media (max-width: 480px) {
-    body {
-        padding: 0;
-        /* SOLUSI LONGKANG: Nonaktifkan flexbox centering */
-        display: block;
-        align-items: initial;
-        justify-content: initial;
-
-        width: 100%;
-        min-height: 100vh;
-        /* Tambahkan kembali jika Anda menghapus dari body global */
-    }
-
-    html, body {
-        /* Menghilangkan padding 80px di atas secara paksa */
-        padding: 0 !important;
-        /* Menghilangkan margin browser (8px) dan margin lain */
+  html, body {
+        /* Hapus overflow: hidden! */
+        overflow-y: auto !important; /* ⬅️ KRITIS: Izinkan scrolling vertikal */
+        overflow-x: hidden !important; /* Pertahankan horizontal hidden */
+        
+        /* Hapus min-height: 100vh! */
+        min-height: initial !important; /* ⬅️ KRITIS: Biarkan tinggi konten yang menentukan */
+        height: auto !important; /* Pastikan height juga fleksibel */
+        
+        /* Pertahankan ini untuk menghilangkan longkang */
+        padding: 0 !important; 
         margin: 0 !important;
-
-        /* SOLUSI BACKGROUND & LONGKANG: Nonaktifkan Flex Centering */
-        display: block !important;
-        align-items: initial !important;
-        justify-content: initial !important;
-
-        /* SOLUSI OVERFLOW */
-        overflow: hidden !important;
-        width: 100% !important;
+        display: block !important; 
     }
 
     .login-container {
         max-width: 100%;
         width: 100%;
-        /* Pastikan 100% width */
-        min-height: 100vh;
-        /* Pastikan tidak ada padding/margin di sini yang mendorong overflow */
+        /* Hapus min-height: 100vh di sini */
+        min-height: initial; 
+        
+        /* Tambahkan padding bawah agar tombol Sign Up tidak mepet tepi */
+        padding-bottom: 30px; 
     }
 
     .login-card {
-        padding: 60px 40px;
+        /* Kurangi padding atas/bawah agar lebih ringkas */
+        padding: 40px 20px; 
         margin: 0;
         border-radius: 0;
-        min-height: 100vh;
-        box-shadow: none;
+        /* Hapus min-height: 100vh di sini */
+        min-height: initial; 
+        box-shadow: none; 
         border: none;
     }
 
