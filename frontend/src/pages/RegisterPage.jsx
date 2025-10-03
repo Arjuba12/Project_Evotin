@@ -128,7 +128,7 @@ export default function RegisterPage() {
 
       if (response.ok) {
         alert("✅ OTP baru dikirim ke email" + ` (${email}) OTP: ${data.otp}`);
-        setResendCooldown(120);
+        setResendCooldown(60);
       } else {
         alert(data.detail || "Gagal mengirim OTP");
       }
