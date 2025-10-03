@@ -19,22 +19,18 @@
 
 /* Penyesuaian ikon hamburger */
 .menu-icon {
-  font-size: 2rem;
+  /* font-size: 2rem; (Tidak diperlukan karena SVG punya atribut width/height) */
   cursor: pointer;
   color: #0ff;
   display: none;
+  /* line-height, padding, margin dipertahankan, namun SVG adalah elemen block */
   line-height: 1;
   padding: 0;
   margin: 0;
 }
 
-/* KOREKSI KRITIS: Teks di dalam ikon */
-.menu-icon span {
-  /* Paksa teks ikon menjadi elemen tunggal, mencegah line breaks aneh */
-  display: inline-block;
-  /* Hilangkan spasi vertikal yang memisahkannya dari logo */
-  vertical-align: middle;
-}
+/* 🟢 Hapus KOREKSI KRITIS: karena sudah beralih ke SVG, span sudah tidak ada */
+/* .menu-icon span { ... } Dihapus */
 
 .logo {
   font-size: 1.5rem;
@@ -63,23 +59,33 @@
   color: #0ff;
 }
 
-/* sidebar drawer */
+/* -------------------------------------- */
+/* 🚀 PERBAIKAN UTAMA: OPTIMASI SLIDE SIDEBAR DENGAN TRANSFORM */
+/* -------------------------------------- */
 .sidebar {
   position: fixed;
   top: 0;
-  left: -260px;
+  /* ❌ GANTI: left: -260px; (Ini yang menyebabkan lag) */
   width: 260px;
   height: 100%;
   background: #111;
   color: #fff;
-  transition: 0.3s ease;
+
+  /* 🟢 BARU: Ganti transisi 'left' dengan 'transform' untuk akselerasi GPU */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* 🟢 BARU: Posisi default: Geser ke luar layar ke kiri sejauh lebarnya */
+  transform: translateX(-100%);
+
   z-index: 1200;
   padding: 20px;
   box-shadow: 4px 0 15px rgba(0, 255, 255, 0.2);
 }
 
 .sidebar.open {
-  left: 0;
+  /* ❌ GANTI: left: 0; */
+  /* 🟢 BARU: Geser kembali ke posisi awal (di layar) */
+  transform: translateX(0);
 }
 
 .sidebar-header {
@@ -157,7 +163,8 @@
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   visibility: hidden;
-  transition: 0.3s;
+  /* 🟢 OPTIMASI: Transisi opacity lebih baik daripada 'left' */
+  transition: opacity 0.3s ease;
   z-index: 1150;
 }
 
@@ -167,21 +174,20 @@
 }
 
 /* 🔹 responsive: kalau mobile */
-/* 🔹 responsive: kalau mobile */
 @media (max-width: 768px) {
 
-  /* Pastikan navbar masih flex */
+  /* Navbar tetap menggunakan flex untuk logo/ikon */
   .navbar {
-        display: flex !important; 
-        flex-direction: initial !important; 
-        justify-content: space-between !important;
-        align-items: center !important; 
-        padding: 15px 15px;
-    }
-    
-    .menu-icon {
-        display: block !important; 
-    }
+    display: flex !important;
+    flex-direction: initial !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 15px 15px;
+  }
+
+  .menu-icon {
+    display: block !important;
+  }
 
   /* Sembunyikan Nav Links */
   .nav-links {
