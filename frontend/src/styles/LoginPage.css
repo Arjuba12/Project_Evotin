@@ -709,8 +709,6 @@ input:-webkit-autofill {
         align-items: initial;
         justify-content: initial;
 
-        /* SOLUSI OVERFLOW: Matikan semua scrolling di mobile */
-        overflow: auto;
         width: 100%;
         min-height: 100vh;
         /* Tambahkan kembali jika Anda menghapus dari body global */
