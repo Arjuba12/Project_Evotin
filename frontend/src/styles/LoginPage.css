@@ -738,7 +738,7 @@ input:-webkit-autofill {
         width: 100%;
         /* Pastikan 100% width */
         min-height: 100vh;
-        padding: 10px;
+        margin: 10px;
         /* Pastikan tidak ada padding/margin di sini yang mendorong overflow */
     }
 
