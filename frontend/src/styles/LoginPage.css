@@ -8,21 +8,22 @@
 
 html {
     /* Pastikan warna background utama diterapkan dari akar HTML */
-    background: #0a0a0f; 
+    background: #0a0a0f;
     min-height: 100%;
 }
 
 body {
     /* Hapus min-height: 100vh di sini, biarkan login-card yang handle */
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #0a0a0f; /* Pertahankan background untuk jaga-jaga */
+    background: #0a0a0f;
+    /* Pertahankan background untuk jaga-jaga */
     /* Hapus min-height: 100vh; dari body */
-    display: flex; 
+    display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
     line-height: 1.6;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 .login-container {
@@ -704,20 +705,39 @@ input:-webkit-autofill {
     body {
         padding: 0;
         /* SOLUSI LONGKANG: Nonaktifkan flexbox centering */
-        display: block; 
+        display: block;
         align-items: initial;
         justify-content: initial;
-        
+
         /* SOLUSI OVERFLOW: Matikan semua scrolling di mobile */
-        overflow: hidden; 
+        overflow: hidden;
         width: 100%;
-        min-height: 100vh; /* Tambahkan kembali jika Anda menghapus dari body global */
+        min-height: 100vh;
+        /* Tambahkan kembali jika Anda menghapus dari body global */
+    }
+
+    html, body {
+        /* Menghilangkan padding 80px di atas secara paksa */
+        padding: 0 !important;
+        /* Menghilangkan margin browser (8px) dan margin lain */
+        margin: 0 !important;
+
+        /* SOLUSI BACKGROUND & LONGKANG: Nonaktifkan Flex Centering */
+        display: block !important;
+        align-items: initial !important;
+        justify-content: initial !important;
+
+        /* SOLUSI OVERFLOW */
+        overflow: hidden !important;
+        width: 100% !important;
+        min-height: 100vh !important;
     }
 
     .login-container {
         max-width: 100%;
-        width: 100%; /* Pastikan 100% width */
-        min-height: 100vh; 
+        width: 100%;
+        /* Pastikan 100% width */
+        min-height: 100vh;
         /* Pastikan tidak ada padding/margin di sini yang mendorong overflow */
     }
 
@@ -725,17 +745,17 @@ input:-webkit-autofill {
         padding: 30px 20px;
         margin: 0;
         border-radius: 0;
-        min-height: 100vh; 
-        box-shadow: none; 
+        min-height: 100vh;
+        box-shadow: none;
         border: none;
     }
-    
+
     /* PENTING: Jika ada elemen yang mendorong overflow, coba ini: */
     * {
         max-width: 100%;
         /* Pastikan box-sizing: border-box; sudah ada di global, 
            tapi tambahkan lagi untuk memastikan tidak ada padding/border yang menyebabkan overflow */
-        box-sizing: border-box; 
+        box-sizing: border-box;
     }
 
     .login-header {
