@@ -185,19 +185,20 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
     email = req.email.strip().lower()
     nim = req.nim.strip()
 
-# 1. Validasi NIM ada di tabel mahasiswa
+    # 1. Validasi NIM ada di tabel mahasiswa
     mahasiswa = db.query(models.Mahasiswa).filter(models.Mahasiswa.nim == nim).first()
-    
     if not mahasiswa:
         raise HTTPException(status_code=400, detail="NIM tidak terdaftar di database mahasiswa")
 
     # 2. Cek apakah mahasiswa sudah dipakai buat akun
     if mahasiswa.sudah_mendaftar:
         raise HTTPException(status_code=400, detail="NIM sudah digunakan untuk akun lain")
-    
+
+    # 3. Validasi password
     validate_password(req.password)
     password_to_use = req.password[:72]
 
+    # 4. Cek email
     user_exist = db.query(User).filter(User.email == email).first()
     if user_exist:
         if user_exist.is_verified:
@@ -209,13 +210,16 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
     else:
         notif = "✅ Akun baru berhasil dibuat & OTP dikirim."
 
+    # 5. Cek username
     username_exist = db.query(User).filter(User.username == req.name).first()
     if username_exist:
         raise HTTPException(status_code=400, detail="Username sudah digunakan")
 
+    # 6. Buat OTP & hash password
     otp = str(random.randint(100000, 999999))
     hashed_pw = hash_password(password_to_use)
 
+    # 7. Buat user baru
     new_user = User(
         username=req.name,
         email=email,
@@ -225,11 +229,17 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
         is_verified=False
     )
     db.add(new_user)
+
+    # 8. Update status mahasiswa -> sudah mendaftar
+    mahasiswa.sudah_mendaftar = True
+
     db.commit()
     db.refresh(new_user)
 
+    # 9. Kirim OTP
     send_email_otp(email, otp)
     return {"message": notif}
+
 
 
 @app.post("/login")
