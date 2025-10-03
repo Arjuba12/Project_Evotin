@@ -139,31 +139,13 @@ header-section {
 /* === Depan kartu === */
 .card-front {
   background: linear-gradient(145deg, #111, #1a1a1a);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 10px;
 }
 
-.card-front .card-image {
+.card-front img {
   width: 100%;
-  max-height: 220px;
-  /* batasi tinggi gambar */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  /* kalau gambar lebih tinggi, otomatis terpotong rapi */
+  height: 70%;
+  object-fit: cover;
   border-bottom: 2px solid #0ff;
-}
-
-.card-front .card-image img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  /* biar gambar masuk penuh tanpa kepotong */
-  border-radius: 8px;
 }
 
 .card-front h3 {
