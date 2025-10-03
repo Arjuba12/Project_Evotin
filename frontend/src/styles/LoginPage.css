@@ -700,7 +700,8 @@ input:-webkit-autofill {
     }
 
     .login-card {
-        padding: 24px;
+        /* Bikin padding lebih kecil agar form tidak terlalu penuh di layar 360px */
+        padding: 24px; 
         margin: 10px;
     }
 
@@ -709,7 +710,8 @@ input:-webkit-autofill {
     }
 
     .input-wrapper input {
-        padding: 16px;
+        /* Kurangi padding input dari 24px (desktop) menjadi 16px (mobile) */
+        padding: 16px; 
     }
 
     .password-wrapper input {
@@ -725,14 +727,33 @@ input:-webkit-autofill {
     .glow-orb {
         opacity: 0.5;
     }
-
-    /* MODIFIKASI: Floating Label Movement di Mobile */
-    .input-wrapper input:focus + label,
-    .input-wrapper input:valid + label {
-        /* Ubah transform agar naik lebih sedikit (misalnya -24px) dan scale (0.8) */
-        transform: translateY(-24px) translateX(4px) scale(0.8);
-        color: #00ff88; /* Pertahankan warna aktif */
-        font-weight: 500;
+    
+    /* 1. KOREKSI POSISI LABEL AWAL */
+    .input-wrapper label {
+        /* Atur top 16px agar sejajar dengan input yang padding-nya 16px */
+        /* (24px pada desktop, 16px di mobile) */
+        top: 16px; 
     }
 
+    /* 2. KOREKSI PERGERAKAN FLOATING LABEL */
+    .input-wrapper input:focus + label,
+    .input-wrapper input:valid + label {
+        /* Atur label untuk bergerak ke atas hanya -24px (sekitar setengah dari padding + tinggi font) */
+        transform: translateY(-24px) translateX(4px) scale(0.85); 
+        color: #00ff88; 
+        font-weight: 500;
+    }
+    
+    /* Tambahkan pengaturan font size untuk kenyamanan di mobile */
+    .login-header p,
+    .signup-link p,
+    .remember-wrapper .checkbox-label {
+        font-size: 14px;
+    }
+
+    /* Optimasi tombol untuk mobile */
+    .login-btn {
+        padding: 18px 32px; /* Sedikit lebih kecil dari desktop (24px) */
+        font-size: 15px;
+    }
 }
