@@ -1,7 +1,11 @@
+/* styles/Navbar.css */
+
 .navbar {
   display: flex;
-  justify-content: space-between; /* logo kiri, hamburger/menu kanan */
+  justify-content: space-between;
+  /* LOGO KIRI, SISA ELEMEN KANAN */
   align-items: center;
+  /* KRITIS: Semua elemen (logo & ikon) sejajar di tengah vertikal */
   background: rgba(17, 17, 17, 0.95);
   backdrop-filter: blur(8px);
   padding: 15px 20px;
@@ -13,20 +17,24 @@
   border-bottom: 2px solid #0ff;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #0ff;
-  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-}
-
-/* hamburger menu */
+/* Penyesuaian ikon hamburger */
 .menu-icon {
   font-size: 2rem;
   cursor: pointer;
   color: #0ff;
   display: none;
-  /* default: sembunyikan di desktop */
+  /* Tambahkan line-height: 1 untuk memastikan ikon tidak memiliki spasi vertikal berlebihan
+       yang mendorong elemen lain turun */
+  line-height: 1;
+  padding: 0;
+  /* Hapus padding yang mungkin mendorong logo */
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
 }
 
 /* nav-links default (desktop) */
@@ -153,14 +161,26 @@
 }
 
 /* 🔹 responsive: kalau mobile */
+/* 🔹 responsive: kalau mobile */
 @media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    /* hide navlinks di mobile */
+
+  /* Navbar di mobile: pastikan padding tetap nyaman */
+  .navbar {
+    padding: 15px 15px;
+    /* Sedikit kurangi padding horizontal */
+    /* display: flex dan justify-content: space-between sudah diatur di global */
   }
 
+  /* 🔴 NAVLINKS: Sembunyikan */
+  .nav-links {
+    display: none;
+    /* pastikan ini menimpa display: flex */
+  }
+
+  /* 🟢 MENU ICON: Tampilkan dan pastikan sejajar */
   .menu-icon {
-    display: block;
-    /* tampilkan hamburger */
+    display: block !important;
+    /* Gunakan !important jika perlu, untuk menimpa konflik */
+    /* Pastikan line-height: 1 di global untuk menghindari spasi ekstra */
   }
 }
