@@ -186,7 +186,7 @@ export default function RegisterPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
-                <label htmlFor="name">Full Name</label>
+                <label htmlFor="name">Nama</label>
                 <span className="input-line"></span>
               </div>
             </div>

@@ -726,17 +726,13 @@ input:-webkit-autofill {
         opacity: 0.5;
     }
 
-    .input-wrapper label {
-        transform: none !important;
-        top: 16px !important;
-        font-size: 16px;
-        color: #888;
-    }
-
+    /* MODIFIKASI: Floating Label Movement di Mobile */
     .input-wrapper input:focus + label,
     .input-wrapper input:valid + label {
-        transform: none !important;
-        color: #888;
+        /* Ubah transform agar naik lebih sedikit (misalnya -24px) dan scale (0.8) */
+        transform: translateY(-24px) translateX(4px) scale(0.8);
+        color: #00ff88; /* Pertahankan warna aktif */
+        font-weight: 500;
     }
 
 }
