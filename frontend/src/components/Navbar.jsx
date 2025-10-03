@@ -67,13 +67,7 @@ export default function Navbar() {
           ×
         </button>
         <div className="sidebar-header">
-          <img
-            src="https://via.placeholder.com/60"
-            alt="avatar"
-            className="avatar"
-          />
-          <h3>Renan Borba</h3>
-          <p>renandbm.rb@gmail.com</p>
+          <h2>Welcome</h2>
         </div>
         <ul>
           <li>
