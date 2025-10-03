@@ -703,40 +703,39 @@ input:-webkit-autofill {
 @media (max-width: 480px) {
     body {
         padding: 0;
-        /* SOLUSI LONGKANG: 
-        1. Nonaktifkan centering flexbox bawaan.
-        2. Matikan overflow untuk mencegah scrolling horizontal/vertikal yang tidak perlu 
-           karena login-card sudah min-height: 100vh. 
-        */
-        display: block;
-        /* Nonaktifkan display: flex */
+        /* SOLUSI LONGKANG: Nonaktifkan flexbox centering */
+        display: block; 
         align-items: initial;
         justify-content: initial;
-        overflow-y: hidden;
-        /* Matikan scrolling vertikal */
-        overflow-x: hidden;
-        /* Matikan scrolling horizontal (lebih penting) */
+        
+        /* SOLUSI OVERFLOW: Matikan semua scrolling di mobile */
+        overflow: hidden; 
+        width: 100%;
+        min-height: 100vh; /* Tambahkan kembali jika Anda menghapus dari body global */
     }
 
     .login-container {
         max-width: 100%;
-        /* SOLUSI LONGKANG: 
-        Pastikan container mengambil lebar penuh dan mengisi tinggi layar.
-        */
-        min-height: 100vh;
-        width: 100%;
+        width: 100%; /* Pastikan 100% width */
+        min-height: 100vh; 
+        /* Pastikan tidak ada padding/margin di sini yang mendorong overflow */
     }
 
     .login-card {
         padding: 30px 20px;
         margin: 0;
         border-radius: 0;
-        min-height: 100vh;
-        /* Agar card mengisi seluruh layar */
-        box-shadow: none;
+        min-height: 100vh; 
+        box-shadow: none; 
         border: none;
-
-        /* Jika longkang tetap ada, pastikan tidak ada elemen yang diposisikan absolut di atas card */
+    }
+    
+    /* PENTING: Jika ada elemen yang mendorong overflow, coba ini: */
+    * {
+        max-width: 100%;
+        /* Pastikan box-sizing: border-box; sudah ada di global, 
+           tapi tambahkan lagi untuk memastikan tidak ada padding/border yang menyebabkan overflow */
+        box-sizing: border-box; 
     }
 
     .login-header {
