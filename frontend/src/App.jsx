@@ -13,6 +13,8 @@ import StatistikPage from "./pages/StatistikPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
+import AboutPage from "./pages/AboutPage";
+
 
 export default function App() {
   return (
@@ -21,6 +23,7 @@ export default function App() {
         {/* halaman publik */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/about" element={<AboutPage />} />
 
         {/* halaman connect wallet
         <Route

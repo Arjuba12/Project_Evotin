@@ -155,14 +155,10 @@ export default function LoginPage() {
           <div className="form-options">
             <div className="remember-wrapper">
               <input type="checkbox" id="remember" name="remember" />
-              <label htmlFor="remember" className="checkbox-label">
-                <span className="custom-checkbox"></span>
-                Keep me signed in
-              </label>
             </div>
-            <a href="/about" className="forgot-link">
-              Forgot password? 
-            </a>
+            <Link to="/about" className="forgot-link">
+              Forgot password?
+            </Link>
           </div>
 
           <button type="submit" className="login-btn btn" disabled={loading}>
