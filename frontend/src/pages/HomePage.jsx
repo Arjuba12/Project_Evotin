@@ -134,8 +134,12 @@ export default function HomePage() {
   // ==================================================||=================================================
   return (
     <div className="homepage">
-      <h1 className="homepage-title">NEOVOTE GOVERNANCE DAPP</h1>
-      <h2 className="homepage-subtitle">Voting Cepat, Transparan, dan Aman</h2>
+      <div className="header-section">
+        <h1 className="homepage-title">NEOVOTE GOVERNANCE DAPP</h1>
+        <h2 className="homepage-subtitle">
+          Voting Cepat, Transparan, dan Aman
+        </h2>
+      </div>
       {/* Countdown Section */}
       {period && (
         <div className="countdown">

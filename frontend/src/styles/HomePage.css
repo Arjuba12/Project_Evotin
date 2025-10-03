@@ -20,6 +20,10 @@ body {
   justify-content: flex-start;
 }
 
+header-section {
+  margin: 12px;
+}
+
 .homepage-title {
   font-size: 2.5rem;
   margin-top: 20px;
