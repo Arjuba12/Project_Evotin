@@ -2,13 +2,13 @@
 /* Dalam file CSS Anda (misalnya: styles/Navbars.css) */
 
 body {
-    /* 🟢 Menghilangkan highlight biru/abu-abu saat sentuhan di mobile */
-    -webkit-tap-highlight-color: transparent; 
-    
-    /* Juga pertimbangkan untuk menargetkan elemen umum yang diklik */
-    /* Opsional, tapi seringkali membantu: */
-    user-select: none;
-    -webkit-user-select: none;
+  /* 🟢 Menghilangkan highlight biru/abu-abu saat sentuhan di mobile */
+  -webkit-tap-highlight-color: transparent;
+
+  /* Juga pertimbangkan untuk menargetkan elemen umum yang diklik */
+  /* Opsional, tapi seringkali membantu: */
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .navbar {
@@ -74,6 +74,7 @@ body {
 /* 🚀 PERBAIKAN UTAMA: OPTIMASI SLIDE SIDEBAR DENGAN TRANSFORM */
 /* -------------------------------------- */
 .sidebar {
+  display: none;
   position: fixed;
   top: 0;
   /* ❌ GANTI: left: -260px; (Ini yang menyebabkan lag) */
@@ -166,6 +167,7 @@ body {
 
 /* overlay */
 .overlay {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -187,6 +189,21 @@ body {
 /* 🔹 responsive: kalau mobile */
 @media (max-width: 768px) {
 
+  .sidebar {
+    display: block;
+    transform: translateX(-100%);
+    /* tetap hidden by default */
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+    /* muncul saat open */
+  }
+
+  .overlay {
+    display: block;
+  }
+
   /* Navbar tetap menggunakan flex untuk logo/ikon */
   .navbar {
     display: flex !important;
@@ -197,12 +214,12 @@ body {
   }
 
   .menu-icon {
-    display: block ;
+    display: block;
   }
 
   /* Sembunyikan Nav Links */
   .nav-links {
-    display: none ;
+    display: none;
   }
 
 }
