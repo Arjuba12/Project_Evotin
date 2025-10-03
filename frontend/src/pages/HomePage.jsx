@@ -177,7 +177,8 @@ export default function HomePage() {
               <CandidateCard
                 image={c.image}
                 name={c.name}
-                visiMisi={c.visi_misi}
+                visi={c.visi}
+                misi={c.misi}
               />
               <button
                 className="vote-btn"
