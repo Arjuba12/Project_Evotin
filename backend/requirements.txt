@@ -10,3 +10,4 @@ python-jose[cryptography]
 pytz
 fastapi-mail==1.4.1
 aiosmtplib<3.0,>=2.0
+sib-api-v3-sdk
