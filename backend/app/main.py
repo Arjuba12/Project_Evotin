@@ -6,6 +6,7 @@ from sqlalchemy import func
 from datetime import timedelta
 from typing import List
 import random
+import re
 
 from pydantic import BaseModel
 
@@ -118,15 +119,22 @@ def validate_password(password: str):
         raise HTTPException(status_code=400, detail="Password harus mengandung simbol (@$!%*?&)")
     return True
 
+allowed_origins = [
+    "http://localhost:5173",
+    "https://project-evotin.vercel.app",
+]
+
+def is_allowed_origin(origin: str) -> bool:
+    if origin in allowed_origins:
+        return True
+    if re.match(r"https://project-evotin.*\.vercel\.app", origin):
+        return True
+    return False
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5000",
-        "http://127.0.0.1:5000",
-        "http://localhost:5173",
-        "https://project-evotin.vercel.app",
-        f"https://{os.getenv('REPLIT_DEV_DOMAIN', '')}"
-        ],
+    allow_origin_regex=r"https://project-evotin.*\.vercel\.app",
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
