@@ -3,23 +3,27 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # Biar bisa baca .env (Railway otomatis inject ENV vars)
+load_dotenv()
 
-# Railway otomatis kasih DATABASE_URL
-# Contoh: postgresql://username:password@host:port/dbname
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Kalau masih kosong (misalnya running lokal), fallback ke SQLite
+# ✅ Fix format URL dari Railway (postgres:// → postgresql://)
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+# Fallback ke SQLite kalau lokal
 if not DATABASE_URL:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'evoting.db')}"
 
-# Engine PostgreSQL → connect_args khusus SQLite nggak perlu
-engine = create_engine(DATABASE_URL)
+# ✅ connect_args hanya untuk SQLite
+if "sqlite" in DATABASE_URL:
+    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+else:
+    engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-
 
 def get_db():
     db = SessionLocal()
