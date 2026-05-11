@@ -7,71 +7,45 @@ import {
 } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-// import ConnectWalletPage from "./pages/ConnectWalletPage"; 
 import HomePage from "./pages/HomePage";
 import StatistikPage from "./pages/StatistikPage";
 import ProfilePage from "./pages/ProfilePage";
+import LandingPage from "./pages/LandingPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import AboutPage from "./pages/AboutPage";
-
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        {/* halaman publik */}
+        {/* Landing page — halaman utama */}
+        <Route path="/" element={<LandingPage />} />
+
+        {/* Halaman publik */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/about" element={<AboutPage />} />
 
-        {/* halaman connect wallet
-        <Route
-          path="/connect-wallet"
-          element={
-            <ProtectedRoute>
-              <ConnectWalletPage />
-            </ProtectedRoute>
-          }
-        /> */}
+        {/* Halaman yang butuh login */}
+        <Route path="/home" element={
+          <ProtectedRoute>
+            <><Navbar /><HomePage /></>
+          </ProtectedRoute>
+        } />
+        <Route path="/statistik" element={
+          <ProtectedRoute>
+            <><Navbar /><StatistikPage /></>
+          </ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <><Navbar /><ProfilePage /></>
+          </ProtectedRoute>
+        } />
 
-        {/* halaman yang butuh login */}
-        <Route
-          path="/home"
-          element={
-            <ProtectedRoute>
-              <>
-                <Navbar />
-                <HomePage />
-              </>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/statistik"
-          element={
-            <ProtectedRoute>
-              <>
-                <Navbar />
-                <StatistikPage />
-              </>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <>
-                <Navbar />
-                <ProfilePage />
-              </>
-            </ProtectedRoute>
-          }
-        />
-
-        {/* default → redirect ke login */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
