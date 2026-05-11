@@ -1,45 +1,63 @@
 .statistik-page {
   max-width: 900px;
   margin: 0 auto;
-  padding: 40px 24px 60px;
+  padding: 48px 28px 72px;
 }
 
 .page-title {
   font-size: 1.6rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-muted);
   margin-bottom: 32px;
-  letter-spacing: -0.02em;
 }
 
 .statistik-info {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: 12px;
+  margin-bottom: 28px;
 }
 
 .stat-box {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
 }
 
 .stat-box h3 {
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: 0.68rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .stat-box p {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: var(--text-primary);
   font-family: var(--font-mono);
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: var(--text-primary);
   line-height: 1;
 }
 
@@ -48,16 +66,27 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .chart-container h2 {
-  font-size: 0.82rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: var(--text-muted);
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chart-container h2::before {
+  content: '';
+  width: 3px;
+  height: 14px;
+  background: var(--accent);
+  border-radius: 2px;
 }
 
 @media (max-width: 1024px) {
@@ -65,8 +94,8 @@
 }
 
 @media (max-width: 600px) {
-  .statistik-page { padding: 24px 16px 48px; }
-  .statistik-info { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .statistik-page { padding: 28px 16px 56px; }
+  .statistik-info { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .page-title { font-size: 1.3rem; }
   .stat-box p { font-size: 1.4rem; }
 }

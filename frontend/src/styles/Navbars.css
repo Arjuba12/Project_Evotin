@@ -1,40 +1,55 @@
+/* ===== NAVBAR ===== */
 .navbar {
   position: fixed;
   top: 0; left: 0;
   width: 100%;
   height: 64px;
-  background: rgba(15, 15, 16, 0.92);
-  backdrop-filter: blur(12px);
+  background: rgba(12, 12, 14, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px;
-  z-index: 1100;
+  padding: 0 32px;
+  z-index: 1000;
 }
 
 .logo {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: 0.04em;
   font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .nav-links {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 }
 
 .nav-links li a {
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  padding: 6px 14px;
+  padding: 7px 14px;
   border-radius: var(--radius);
   transition: all var(--transition);
+  display: block;
 }
 
 .nav-links li a:hover {
@@ -43,101 +58,147 @@
 }
 
 .special-btn {
-  background: var(--accent);
-  color: #fff;
-  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
   padding: 7px 16px;
   border-radius: var(--radius);
-  font-size: 0.88rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  transition: background var(--transition);
+  transition: all var(--transition);
 }
 
-.special-btn:hover { background: var(--accent-hover); }
+.special-btn:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+  background: rgba(239, 68, 68, 0.06);
+}
 
+/* ===== HAMBURGER ===== */
 .menu-icon {
   display: none;
   cursor: pointer;
   color: var(--text-secondary);
-  padding: 4px;
+  padding: 6px;
+  border-radius: var(--radius);
+  transition: all var(--transition);
+  border: 1px solid transparent;
 }
 
-.menu-icon:hover { color: var(--text-primary); }
+.menu-icon:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+  border-color: var(--border);
+}
 
-/* Overlay */
+/* ===== OVERLAY ===== */
 .overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.7);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.25s ease;
-  z-index: 1150;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 1100;
 }
 
-.overlay.show { opacity: 1; visibility: visible; }
+.overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
 
-/* Sidebar */
+/* ===== SIDEBAR ===== */
 .sidebar {
   display: none;
   position: fixed;
-  top: 0; left: 0;
-  width: 260px;
+  top: 0; right: 0;
+  width: 280px;
   height: 100%;
   background: var(--bg-card);
-  border-right: 1px solid var(--border);
+  border-left: 1px solid var(--border);
   flex-direction: column;
-  padding: 20px;
-  transform: translateX(-100%);
-  transition: transform 0.25s ease;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1200;
+  padding: 0;
 }
 
-.sidebar.open { transform: translateX(0); }
-
-.close-btn {
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  font-size: 1.5rem;
-  position: absolute;
-  top: 16px; right: 16px;
-  cursor: pointer;
-  line-height: 1;
+.sidebar.open {
+  transform: translateX(0);
 }
 
-.close-btn:hover { color: var(--text-primary); }
-
+/* Sidebar header */
 .sidebar-header {
-  padding-top: 48px;
-  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
   border-bottom: 1px solid var(--border);
-  padding-bottom: 20px;
 }
 
 .sidebar-header h2 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
+.sidebar-header h2::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.close-btn {
+  background: var(--bg-hover);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: var(--text-primary);
+  background: var(--border-light);
+}
+
+/* Sidebar menu */
 .sidebar-menu {
   list-style: none;
   flex: 1;
+  padding: 16px 12px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+  overflow-y: auto;
 }
 
 .sidebar-menu li a {
-  display: block;
-  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
   border-radius: var(--radius);
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
   transition: all var(--transition);
+  position: relative;
 }
 
 .sidebar-menu li a:hover {
@@ -145,25 +206,31 @@
   color: var(--text-primary);
 }
 
+.sidebar-menu li a.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+}
+
+/* Logout section */
 .logout-section {
-  margin-top: auto;
-  padding-top: 20px;
+  padding: 12px;
   border-top: 1px solid var(--border);
 }
 
 .logout-section .special-btn {
   width: 100%;
-  padding: 10px;
-  background: var(--danger);
-  font-size: 0.9rem;
+  padding: 11px;
+  font-size: 0.875rem;
+  border-radius: var(--radius);
+  text-align: center;
 }
 
-.logout-section .special-btn:hover { background: #dc2626; }
-
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
+  .navbar { padding: 0 16px; }
   .nav-links { display: none; }
-  .menu-icon { display: block; }
+  .menu-icon { display: flex; align-items: center; }
   .sidebar { display: flex; }
   .overlay { display: block; }
-  .navbar { padding: 0 16px; }
 }

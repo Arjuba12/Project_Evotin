@@ -1,6 +1,6 @@
 .card {
   width: 100%;
-  height: 340px;
+  height: 330px;
   perspective: 1000px;
   cursor: pointer;
 }
@@ -9,7 +9,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
 }
 
@@ -17,8 +17,7 @@
 
 .card-front, .card-back {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   backface-visibility: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -40,31 +39,29 @@
 
 .card-front img {
   width: 100%;
-  height: 72%;
+  height: 74%;
   object-fit: cover;
   object-position: top;
 }
 
-.card-front h3 {
+.card-front-info {
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-primary);
+  justify-content: space-between;
   padding: 0 16px;
   border-top: 1px solid var(--border);
 }
 
-.card-front::after {
-  content: 'Tap untuk detail →';
-  position: absolute;
-  bottom: 0;
-  right: 0;
+.card-front h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.card-hint {
   font-size: 0.7rem;
   color: var(--text-muted);
-  padding: 6px 10px;
   font-family: var(--font-mono);
 }
 
@@ -75,43 +72,43 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
-.card-back h4 {
-  font-size: 0.72rem;
+.card-back-section h4 {
+  font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
-  margin-bottom: 2px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 6px;
 }
 
-.card-back p {
-  font-size: 0.88rem;
+.card-back-section p {
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
-.card-back ul {
+.card-back-section ul {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 0;
+  gap: 5px;
 }
 
-.card-back li {
-  font-size: 0.85rem;
+.card-back-section li {
+  font-size: 0.83rem;
   color: var(--text-secondary);
   padding-left: 14px;
   position: relative;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
-.card-back li::before {
+.card-back-section li::before {
   content: '·';
   position: absolute;
-  left: 4px;
+  left: 3px;
   color: var(--accent);
+  font-weight: 700;
 }

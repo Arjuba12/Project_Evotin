@@ -3,8 +3,6 @@ import "../styles/CandidateCard.css";
 
 export default function CandidateCard({ image, name, visi, misi }) {
   const [flipped, setFlipped] = useState(false);
-
-  // langsung pakai array kalau sudah dikirim array
   const misiList = Array.isArray(misi) ? misi : [];
 
   return (
@@ -12,18 +10,24 @@ export default function CandidateCard({ image, name, visi, misi }) {
       <div className={`card-inner ${flipped ? "flipped" : ""}`}>
         <div className="card-front">
           <img src={image} alt={name} />
-          <h3>{name}</h3>
+          <div className="card-front-info">
+            <h3>{name}</h3>
+            <span className="card-hint">tap →</span>
+          </div>
         </div>
-
         <div className="card-back">
-          <h4>Visi</h4>
-          <p>{visi}</p>
-          
-          <ul>
-            {misiList.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
+          <div className="card-back-section">
+            <h4>Visi</h4>
+            <p>{visi}</p>
+          </div>
+          {misiList.length > 0 && (
+            <div className="card-back-section">
+              <h4>Misi</h4>
+              <ul>
+                {misiList.map((item, i) => <li key={i}>{item}</li>)}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
