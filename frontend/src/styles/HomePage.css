@@ -1,547 +1,220 @@
-/* === GLOBAL === */
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #0a0a0a;
-  color: #f0f0f0;
-  font-family: sans-serif;
-  line-height: 1.6;
-  padding-top: 80px;
-  /* biar konten turun sejajar navbar */
-  overflow: auto;
-}
+body { padding-top: 64px; }
 
 .homepage {
-  margin-top: 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  justify-content: flex-start;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
 }
 
-header-section {
-  margin: 12px;
+/* Header */
+.header-section {
+  margin-bottom: 40px;
 }
 
 .homepage-title {
-  font-size: 2.5rem;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  color: #f0f;
-  justify-content: center;
-  align-items: center;
-  text-shadow: 0 0 10px #f0f, 0 0 20px #f0f;
-}
-
-.homepage-subtitle {
-  font-size: 1.5rem;
-  /* ukuran agak besar */
-  color: #0ff;
-  /* neon cyan sesuai vibe futuristik */
-  text-shadow:
-    0 0 5px #0ff,
-    0 0 10px #0ff,
-    0 0 20px #0ff;
-  /* efek glow */
-  margin-bottom: 30px;
-  /* jarak dengan konten bawah */
-  font-weight: 500;
-  /* sedikit tebal tapi tidak terlalu berat */
-  letter-spacing: 1px;
-  /* spasi huruf agar lebih futuristik */
-  text-align: center;
-  /* center alignment */
-}
-
-/* opsi animasi glow lembut */
-@keyframes glowPulse {
-  0% {
-    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
-  }
-
-  50% {
-    text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff;
-  }
-
-  100% {
-    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
-  }
-}
-
-.homepage-subtitle {
-  animation: glowPulse 2s infinite alternate;
-}
-
-
-.container {
-  text-align: center;
-  padding: 20px;
-}
-
-.page-title {
   font-size: 2rem;
-  margin-bottom: 20px;
-  color: #0ff;
-  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-}
-
-/* === Grid untuk kartu kandidat === */
-.card-container {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(280px, 1fr));
-  gap: 25px;
-  justify-content: center;
-  align-items: stretch;
-  margin-top: 30px;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* === Efek kartu kandidat === */
-.card {
-  width: 100%;
-  height: 360px;
-  perspective: 1000px;
-  cursor: pointer;
-}
-
-.card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-}
-
-.card-inner.flipped {
-  transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border: 3px solid #0ff;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #0ff, inset 0 0 30px rgba(0, 255, 255, 0.3);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-/* === Depan kartu === */
-.card-front {
-  background: linear-gradient(145deg, #111, #1a1a1a);
-}
-
-.card-front img {
-  width: 100%;
-  height: 70%;
-  object-fit: cover;
-  border-bottom: 2px solid #0ff;
-}
-
-.card-front h3 {
-  margin: 10px 0 0;
-  color: #0ff;
-  font-size: 1.2em;
-  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
-}
-
-/* === Belakang kartu === */
-.card-back {
-  background: linear-gradient(145deg, #1a1a1a, #111);
-  transform: rotateY(180deg);
-  padding: 20px;
-  text-align: left;
-  color: #ddd;
-}
-
-.card-back h4 {
-  color: #f0f;
-  margin-bottom: 10px;
-  text-shadow: 0 0 10px #f0f, 0 0 20px #f0f;
-}
-
-.card-back p {
-  font-size: 0.95em;
-  line-height: 1.5;
-  color: #ccc;
-}
-
-/* === Wrapper kandidat (kartu + tombol) === */
-.candidate-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* === Tombol Vote === */
-.vote-btn {
-  margin-top: 24px;
-  padding: 10px 20px;
-  border: 2px solid #0ff;
-  border-radius: 12px;
-  background: transparent;
-  color: #0ff;
-  font-size: 1rem;
   font-weight: 600;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
 }
 
-.vote-btn:hover {
-  background: #0ff;
-  color: #0a0a0a;
-  box-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
-  transform: scale(1.05);
+.homepage-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
-.info-voting, .statistik, .aturan {
-  margin-top: 40px;
-  padding: 20px;
-  border-radius: 12px;
-  background: linear-gradient(145deg, #111, #1a1a1a);
-  border: 2px solid #0ff;
-  box-shadow: 0 0 15px #0ff, inset 0 0 25px rgba(0, 255, 255, 0.2);
-  color: #eee;
-}
-
-.info-voting h2, .statistik h2, .aturan h2 {
-  color: #f0f;
-  text-shadow: 0 0 8px #f0f, 0 0 15px #f0f;
-  margin-bottom: 15px;
-}
-
-.info-voting p, .statistik p, .aturan li {
-  color: #ccc;
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-.section-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 0 20px;
-}
-
-.aturan {
-  grid-column: span 2;
-}
-
-/* Progress Bar */
-.progress-bar {
-  background: #222;
-  border: 2px solid #0ff;
-  border-radius: 8px;
-  overflow: hidden;
-  height: 20px;
-  margin: 10px 0;
-  box-shadow: inset 0 0 10px #0ff;
-}
-
-.progress {
-  background: linear-gradient(90deg, #0ff, #09f);
-  height: 100%;
-  box-shadow: 0 0 10px #0ff;
-}
-
-/* === Countdown Section === */
+/* Countdown */
 .countdown {
-  text-align: center;
-  margin: 40px auto;
-  padding: 20px;
-  border: 2px solid #0ff;
-  border-radius: 15px;
-  background: linear-gradient(145deg, #111, #1a1a1a);
-  box-shadow: 0 0 15px #0ff, inset 0 0 20px rgba(0, 255, 255, 0.3);
-  max-width: 700px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .countdown h2 {
-  color: #f0f;
-  text-shadow: 0 0 10px #f0f, 0 0 20px #f0f;
-  margin-bottom: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
 }
 
 .countdown h3 {
-  font-size: 1.3rem;
-  color: #0ff;
-  /* neon cyan */
-  text-shadow:
-    0 0 5px #0ff,
-    0 0 10px #0ff,
-    0 0 20px #0ff;
-  text-align: center;
-  margin-top: 15px;
+  font-size: 0.9rem;
   font-weight: 500;
-  letter-spacing: 1px;
-  animation: glowPulse 2s infinite alternate;
-  /* sama animasi glow seperti subtitle */
+  color: var(--accent);
 }
-
 
 .countdown-timer {
   display: flex;
-  justify-content: center;
-  gap: 30px;
+  gap: 12px;
 }
 
 .countdown-timer div {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
   text-align: center;
-  min-width: 70px;
-  background: #000;
-  padding: 15px;
-  border-radius: 10px;
-  border: 2px solid #0ff;
-  box-shadow: 0 0 10px #0ff;
+  min-width: 64px;
 }
 
 .countdown-timer span {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #0ff;
-  text-shadow: 0 0 10px #0ff, 0 0 15px #0ff;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
   display: block;
+  line-height: 1;
 }
 
 .countdown-timer p {
-  margin-top: 5px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+
+/* Candidate grid */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.candidate-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Vote button */
+.vote-btn {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: var(--radius);
+  padding: 10px 20px;
   font-size: 0.9rem;
-  color: #f0f;
+  font-weight: 500;
+  transition: all var(--transition);
+  width: 100%;
+}
+
+.vote-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* Info grid */
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.info-voting, .statistik, .aturan {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.aturan { grid-column: span 2; }
+
+.info-voting h2, .statistik h2, .aturan h2 {
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.info-voting p, .statistik p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.aturan ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aturan ul li {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  padding-left: 16px;
+  position: relative;
+}
+
+.aturan ul li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--text-muted);
+}
+
+/* Progress bar */
+.progress-bar {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  height: 6px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 100px;
+  transition: width 0.5s ease;
 }
 
 /* Footer */
 .footer {
   text-align: center;
-  margin-top: 50px;
-  padding: 15px;
-  background: #111;
-  border-top: 2px solid #0ff;
-  color: #0ff;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--border);
+}
+
+.footer p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+/* Loading state */
+.homepage > p {
+  color: var(--text-muted);
   font-size: 0.9rem;
-  text-shadow: 0 0 6px #0ff;
+  padding: 40px 0;
+  text-align: center;
 }
 
-.info-voting,
-.aturan {
-  text-align: left;
-  /* rata kiri */
-  padding: 15px;
-  background: linear-gradient(145deg, #111, #1a1a1a);
-  border: 2px solid #0ff;
-  border-radius: 12px;
-  box-shadow: 0 0 15px #0ff;
-  color: #f0f0f0;
-  margin-bottom: 20px;
-}
-
-.info-voting h2,
-.aturan h2 {
-  color: #f0f;
-  text-shadow: 0 0 5px #f0f, 0 0 10px #0ff;
-  margin-bottom: 10px;
-}
-
-.info-voting p,
-.aturan ul {
-  margin: 5px 0;
-  line-height: 1.5;
-}
-
-.aturan ul {
-  padding-left: 20px;
-  /* beri jarak bullet list */
-}
-
-.statistik {
-  text-align: left;
-  /* rata kiri */
-  padding: 15px;
-  background: linear-gradient(145deg, #111, #1a1a1a);
-  border: 2px solid #0ff;
-  border-radius: 12px;
-  box-shadow: 0 0 15px #0ff;
-  color: #f0f0f0;
-  margin-bottom: 20px;
-}
-
-.statistik h2 {
-  color: #f0f;
-  text-shadow: 0 0 5px #f0f, 0 0 10px #0ff;
-  margin-bottom: 10px;
-}
-
-.statistik p {
-  margin: 5px 0;
-  line-height: 1.5;
-}
-
-/* Progress bar */
-.progress-bar {
-  background: #111;
-  border: 1px solid #0ff;
-  border-radius: 10px;
-  overflow: hidden;
-  height: 20px;
-  margin-top: 10px;
-}
-
-.progress {
-  height: 100%;
-  background: #0ff;
-  width: 0%;
-  transition: width 0.5s ease-in-out;
-}
-
-
-/* === Responsif ke mobile === */
-/* === Responsif ke mobile (max-width: 768px) === */
 @media (max-width: 768px) {
-
-  .header-section {
-    margin: 12px;
-    padding: 6px;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .homepage-title {
-    font-size: 2rem;
-    margin-bottom: 15px;
-  }
-
-  /* 1. KARTU KANDIDAT: Ubah menjadi 1 kolom (sudah ada, pertahankan) */
-  .card-container {
-    grid-template-columns: repeat(1, minmax(280px, 1fr));
-    gap: 20px;
-    /* Kurangi jarak antar kartu */
-    padding: 0 15px;
-    /* Tambahkan padding agar kartu tidak menempel di tepi */
-  }
-
-  /* 2. SECTION GRID: Ubah menjadi 1 kolom */
-  .section-grid {
-    grid-template-columns: 1fr;
-    /* Ubah dari 2 kolom menjadi 1 */
-    gap: 20px;
-    padding: 0 15px;
-    /* Tambahkan padding horizontal */
-    margin: 30px auto;
-  }
-
-  .aturan {
-    grid-column: span 1;
-    /* Pastikan aturan tidak memakan 2 kolom */
-  }
-
-  /* 3. CARD SIZE: Kecilkan tinggi kartu agar lebih ringkas */
-  .card, .card-inner {
-    height: 320px;
-  }
-
-  /* 4. COUNTDOWN: Lebih ringkas */
-  .countdown {
-    padding: 15px;
-    margin: 30px 15px;
-  }
-
-  .countdown-timer {
-    gap: 15px;
-    /* Kurangi jarak antar jam */
-  }
-
-  .countdown-timer div {
-    min-width: 60px;
-    padding: 10px;
-  }
-
-  .countdown-timer span {
-    font-size: 1.5rem;
-    /* Ukuran jam lebih kecil */
-  }
-
-  .countdown h2 {
-    font-size: 1.5rem;
-  }
-}
-
-/* === Optimasi Ekstra Mobile (max-width: 480px) untuk 360px width === */
-@media (max-width: 480px) {
-
-  /* BODY: Hilangkan Padding Top yang besar, andalkan Navbar Fixed/Sticky */
-  body {
-    padding-top: 0 !important;
-  }
-
-  /* HEADER: Kecilkan ukuran font agar hemat ruang vertikal */
-  .homepage-title {
-    font-size: 2rem;
-    margin-top: 80px;
-    margin-bottom: 15px;
-  }
-
-  .homepage-subtitle {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-  }
-
-  /* CONTAINER: Kurangi padding horizontal agar konten lebar penuh */
-  .container {
-    padding: 10px;
-  }
-
-  /* CARD: Pastikan padding konten kartu optimal */
-  .card-back {
-    padding: 15px;
-  }
-
-  .card-front h3 {
-    font-size: 1.1em;
-  }
-
-  /* VOTE BUTTON: Lebih ramping */
-  .vote-btn {
-    padding: 8px 15px;
-    font-size: 0.9rem;
-    border-radius: 8px;
-  }
-
-  /* INFO/STATISTIK/ATURAN: Kurangi padding konten */
-  .info-voting, .statistik, .aturan {
-    padding: 15px;
-    margin-top: 25px;
-  }
-
-  .info-voting h2, .statistik h2, .aturan h2 {
-    font-size: 1.2rem;
-  }
-
-  /* FOOTER */
-  .footer {
-    font-size: 0.8rem;
-  }
-
-  /* OVERFLOW HORIZONTAL SAFEGUARD */
-  * {
-    max-width: 100%;
-    box-sizing: border-box;
-  }
+  .homepage { padding: 24px 16px 48px; }
+  .homepage-title { font-size: 1.5rem; }
+  .section-grid { grid-template-columns: 1fr; }
+  .aturan { grid-column: span 1; }
+  .countdown { padding: 20px; flex-direction: column; }
+  .countdown-timer { flex-wrap: wrap; }
 }
