@@ -288,7 +288,7 @@ def read_users_me(current_user: str = Depends(get_current_user), db: Session = D
     if not user:
         raise HTTPException(status_code=404, detail="User tidak ditemukan")
 
-    return {"id": user.id, "name": user.username, "email": user.email}
+    return {"id": user.id, "name": user.username, "email": user.email, "nim": user.nim}
 
 
 @app.post("/verify-otp")
