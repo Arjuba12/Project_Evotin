@@ -1,3 +1,4 @@
+import { apiFetch } from "../utils/apiFetch";
 import React, { useEffect, useState } from "react";
 import "../styles/ProfilePage.css";
 

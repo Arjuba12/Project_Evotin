@@ -1,3 +1,4 @@
+import { apiFetch } from "../utils/apiFetch";
 import React, { useEffect, useState, useCallback } from "react";
 import CandidateCard from "../components/CandidateCard";
 import "../styles/HomePage.css";

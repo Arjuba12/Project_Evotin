@@ -1,3 +1,4 @@
+import { apiFetch } from "../utils/apiFetch";
 import React, { useEffect, useState, useCallback } from "react";
 import { Bar, Pie } from "react-chartjs-2";
 import "../styles/Statistik.css";
