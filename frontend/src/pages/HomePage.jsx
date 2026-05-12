@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import CandidateCard from "../components/CandidateCard";
 import "../styles/HomePage.css";
+
+const POLL_INTERVAL = 5000;
 
 export default function HomePage() {
   const [candidates, setCandidates] = useState([]);
@@ -8,8 +10,10 @@ export default function HomePage() {
   const [stats, setStats] = useState(null);
   const [period, setPeriod] = useState(null);
   const [timeLeft, setTimeLeft] = useState({});
+  const [isLive, setIsLive] = useState(true);
   const token = localStorage.getItem("token");
 
+  // Fetch candidates sekali saja
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/candidates`)
       .then((r) => r.json())
@@ -17,20 +21,35 @@ export default function HomePage() {
       .catch(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    if (!token) return;
-    fetch(`${import.meta.env.VITE_API_URL}/stats`, {
-      headers: { Authorization: `Bearer ${token}` },
-    }).then((r) => r.json()).then(setStats).catch(console.error);
+  // Polling stats + period
+  const fetchLiveData = useCallback(async () => {
+    try {
+      const fetches = [
+        fetch(`${import.meta.env.VITE_API_URL}/voting-period`).then(r => r.json()),
+      ];
+      if (token) {
+        fetches.push(
+          fetch(`${import.meta.env.VITE_API_URL}/stats`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }).then(r => r.json())
+        );
+      }
+      const [p, s] = await Promise.all(fetches);
+      if (p?.length > 0) setPeriod(p[0]);
+      if (s) setStats(s);
+      setIsLive(true);
+    } catch {
+      setIsLive(false);
+    }
   }, [token]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/voting-period`)
-      .then((r) => r.json())
-      .then((d) => { if (d.length > 0) setPeriod(d[0]); })
-      .catch(console.error);
-  }, []);
+    fetchLiveData();
+    const interval = setInterval(fetchLiveData, POLL_INTERVAL);
+    return () => clearInterval(interval);
+  }, [fetchLiveData]);
 
+  // Countdown timer
   useEffect(() => {
     if (!period) return;
     const tick = () => {
@@ -63,21 +82,27 @@ export default function HomePage() {
         body: JSON.stringify({ candidate_id: candidateId }),
       });
       const data = await res.json();
-      alert(res.ok ? "Vote berhasil!" : data.detail || "Gagal vote");
+      if (res.ok) { alert("Vote berhasil!"); fetchLiveData(); }
+      else alert(data.detail || "Gagal vote");
     } catch (err) { alert(err.message); }
   };
 
   const fmt = (d) => new Date(d).toLocaleString("id-ID", {
     timeZone: "Asia/Jakarta", dateStyle: "short", timeStyle: "short",
   });
-
   const pad = (n) => String(n ?? 0).padStart(2, "0");
 
   return (
     <div className="homepage">
       <div className="header-section">
-        <h1 className="homepage-title">Pemilihan Himpunan</h1>
-        <p className="homepage-subtitle">Berikan suaramu — transparan, aman, dan tercatat.</p>
+        <div>
+          <h1 className="homepage-title">Pemilihan Himpunan</h1>
+          <p className="homepage-subtitle">Berikan suaramu — transparan, aman, dan tercatat.</p>
+        </div>
+        <div className="live-indicator">
+          <span className={`live-dot ${isLive ? "live-dot-active" : "live-dot-off"}`}></span>
+          <span className="live-label">{isLive ? "Live" : "Offline"}</span>
+        </div>
       </div>
 
       {period && (
@@ -97,7 +122,8 @@ export default function HomePage() {
 
       <p className="section-label">Kandidat</p>
       <div className="card-container">
-        {loading ? <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Memuat...</p>
+        {loading
+          ? <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Memuat...</p>
           : candidates.length > 0
             ? candidates.map((c) => (
               <div key={c.id} className="candidate-wrapper">
