@@ -19,6 +19,7 @@ export default function AdminDashboard() {
   const [periods, setPeriods] = useState([]);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Candidate form
   const [candForm, setCandForm] = useState({ name: "", image: "", visi: "", misi: "" });
@@ -103,8 +104,24 @@ export default function AdminDashboard() {
 
   return (
     <div className="admin-layout">
+
+      {/* MOBILE TOPBAR */}
+      <div className="admin-mobile-topbar">
+        <span className="admin-mobile-brand">NEOVOTE Admin</span>
+        <button className="admin-hamburger" onClick={() => setSidebarOpen(true)}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <line x1="4" y1="7" x2="20" y2="7"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="4" y1="17" x2="14" y2="17"/>
+          </svg>
+        </button>
+      </div>
+
+      {/* OVERLAY */}
+      <div className={`admin-overlay ${sidebarOpen ? "show" : ""}`} onClick={() => setSidebarOpen(false)} />
+
       {/* SIDEBAR */}
-      <aside className="admin-sidebar">
+      <aside className={`admin-sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="admin-brand">
           <span className="brand-dot"></span>
           NEOVOTE
@@ -112,7 +129,7 @@ export default function AdminDashboard() {
         </div>
         <nav className="admin-nav">
           {tabs.map(t => (
-            <button key={t.id} className={`admin-nav-item ${activeTab === t.id ? "active" : ""}`} onClick={() => setActiveTab(t.id)}>
+            <button key={t.id} className={`admin-nav-item ${activeTab === t.id ? "active" : ""}`} onClick={() => { setActiveTab(t.id); setSidebarOpen(false); }}>
               {t.label}
             </button>
           ))}

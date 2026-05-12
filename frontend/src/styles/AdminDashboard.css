@@ -526,3 +526,125 @@ input:-webkit-autofill {
   .result-row { grid-template-columns: 28px 1fr 60px 44px; }
   .result-bar-wrap { display: none; }
 }
+
+/* ===== MOBILE TOPBAR ===== */
+.admin-mobile-topbar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 56px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.admin-mobile-brand {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.admin-mobile-brand::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.admin-hamburger {
+  background: var(--bg-hover);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.admin-hamburger:hover {
+  color: var(--text-primary);
+  border-color: var(--border-light);
+}
+
+/* ===== MOBILE OVERLAY ===== */
+.admin-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.admin-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===== MOBILE SIDEBAR (drawer) ===== */
+@media (max-width: 768px) {
+  /* layout jadi kolom */
+  .admin-layout {
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  /* mobile topbar muncul */
+  .admin-mobile-topbar { display: flex; }
+  .admin-overlay { display: block; }
+
+  /* sidebar jadi drawer dari kiri */
+  .admin-sidebar {
+    display: flex;
+    position: fixed;
+    top: 0; left: 0;
+    width: 260px;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+    z-index: 300;
+    padding: 20px 12px;
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* topbar */
+  .admin-topbar { display: none; }
+
+  /* content full width */
+  .admin-main {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .admin-content {
+    overflow: visible;
+    padding: 16px;
+  }
+
+  .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+
+  .result-row {
+    grid-template-columns: 28px 1fr 60px 44px;
+  }
+  .result-bar-wrap { display: none; }
+}
