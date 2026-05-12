@@ -520,3 +520,50 @@ def delete_voting_period(period_id: int, db: Session = Depends(get_db)):
 async def option_handler(path: str):
     return {"message" : "OK"}
 
+# ============================================================
+# Tambahkan ini ke main.py (di bagian bawah, sebelum options handler)
+# ============================================================
+
+# ===== ADMIN =====
+
+class AdminLoginRequest(BaseModel):
+    password: str
+
+@app.post("/admin/login")
+def admin_login(req: AdminLoginRequest):
+    admin_password = os.getenv("ADMIN_PASSWORD")
+    if not admin_password or req.password != admin_password:
+        raise HTTPException(status_code=401, detail="Password admin salah")
+    token = create_access_token(
+        data={"sub": "admin", "role": "admin"},
+        expires_delta=timedelta(hours=12)
+    )
+    return {"access_token": token, "token_type": "bearer"}
+
+def get_admin_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    token = credentials.credentials
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        role = payload.get("role")
+        if role != "admin":
+            raise HTTPException(status_code=403, detail="Bukan admin")
+        return payload
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Token tidak valid")
+
+@app.get("/admin/users")
+def get_all_users(
+    db: Session = Depends(get_db),
+    _: dict = Depends(get_admin_user)
+):
+    users = db.query(User).all()
+    return [
+        {
+            "id": u.id,
+            "username": u.username,
+            "email": u.email,
+            "nim": u.nim,
+            "is_verified": u.is_verified
+        }
+        for u in users
+    ]
