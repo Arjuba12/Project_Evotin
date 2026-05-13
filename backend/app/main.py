@@ -167,8 +167,30 @@ def send_email_otp(to_email: str, otp: str):
 
     api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
 
-    subject = "NEOVOTE OTP Verification"
-    body = f"Kode OTP Anda: {otp}\n\nJangan bagikan kode ini ke siapa pun."
+    html_body = f"""
+    <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 480px; margin: 0 auto; background: #0f0f10; color: #f0f0f2; border-radius: 12px; overflow: hidden;">
+      <div style="background: #16161a; padding: 28px 32px; border-bottom: 1px solid #242428;">
+        <span style="font-family: monospace; font-size: 14px; font-weight: 600; letter-spacing: 0.08em; color: #f0f0f2;">● NEOVOTE</span>
+      </div>
+      <div style="padding: 32px;">
+        <h2 style="font-size: 18px; font-weight: 600; color: #f0f0f2; margin: 0 0 8px;">Verifikasi Akun Kamu</h2>
+        <p style="font-size: 14px; color: #9898a8; line-height: 1.6; margin: 0 0 28px;">
+          Gunakan kode OTP berikut untuk mengaktifkan akun NEOVOTE kamu. Kode ini hanya berlaku untuk satu kali penggunaan.
+        </p>
+        <div style="background: #16161a; border: 1px solid #2e2e35; border-radius: 10px; padding: 24px; text-align: center; margin-bottom: 28px;">
+          <p style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #5c5c6e; margin: 0 0 12px;">Kode Verifikasi</p>
+          <div style="font-family: monospace; font-size: 36px; font-weight: 700; letter-spacing: 0.2em; color: #f59e0b; margin: 0;">{otp}</div>
+        </div>
+        <p style="font-size: 13px; color: #5c5c6e; line-height: 1.6; margin: 0;">
+          Jangan bagikan kode ini kepada siapapun, termasuk panitia.<br>
+          Kalau kamu tidak merasa mendaftar, abaikan email ini.
+        </p>
+      </div>
+      <div style="background: #16161a; padding: 20px 32px; border-top: 1px solid #242428;">
+        <p style="font-size: 12px; color: #5c5c6e; margin: 0; text-align: center;">© 2025 NEOVOTE · Sistem Voting Himpunan</p>
+      </div>
+    </div>
+    """
 
     sender = {"email": os.getenv("SENDER_EMAIL"), "name": "NEOVOTE"}
     to = [{"email": to_email}]
@@ -176,20 +198,16 @@ def send_email_otp(to_email: str, otp: str):
     email = sib_api_v3_sdk.SendSmtpEmail(
         to=to,
         sender=sender,
-        subject=subject,
-        text_content=body,
+        subject="Kode Verifikasi NEOVOTE",
+        html_content=html_body,
     )
 
     try:
         response = api_instance.send_transac_email(email)
-        print(f"✅ OTP dikirim ke {to_email}, Brevo messageId: {response.message_id}")
-        print(response)
-        print(response.__dict__)
-
+        print(f"✅ OTP dikirim ke {to_email}, messageId: {response.message_id}")
     except ApiException as e:
         print(f"⚠️ Gagal kirim email ke {to_email} lewat Brevo: {e}")
-
-
+        
 @app.post("/register")
 def register(req: RegisterRequest, db: Session = Depends(get_db)):
     email = req.email.strip().lower()
