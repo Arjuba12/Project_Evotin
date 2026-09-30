@@ -10,8 +10,10 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     password = Column(String)
     nim = Column(String, unique=True, index=True)   # 🔹 Tambahkan NIM unik
+    himpunan = Column(String, nullable=True, index=True)  # 🔹 HIMAIF / HIMASIF / HIMAKA, diisi otomatis dari data mahasiswa
     is_verified = Column(Boolean, default=False)
     otp_code = Column(String, nullable=True)
+    otp_attempts = Column(Integer, nullable=False, default=0)  # 🔹 hitung percobaan OTP salah, buat cegah brute-force
 
 class Candidate(Base):
     __tablename__ = "candidates"
@@ -20,6 +22,7 @@ class Candidate(Base):
     image = Column(String, nullable=True)      # URL gambar
     visi = Column(String, nullable=True)       # 🔹 1 teks panjang
     misi = Column(String, nullable=True)       # 🔹 Simpan JSON/dipisah dengan delimiter (misalnya ';')
+    himpunan = Column(String, nullable=False, default="HIMAIF", index=True)  # 🔹 kandidat ini calon dari himpunan mana
     votes = relationship("Vote", back_populates="candidate")
 
 
@@ -46,4 +49,12 @@ class Mahasiswa(Base):
 
     nim = Column(String, primary_key=True, index=True)
     nama = Column(String)
+    himpunan = Column(String, nullable=False, default="HIMAIF", index=True)  # 🔹 HIMAIF / HIMASIF / HIMAKA
     sudah_mendaftar = Column(Boolean, default=False)
+
+class AdminLog(Base):
+    __tablename__ = "admin_logs"
+    id = Column(Integer, primary_key=True, index=True)
+    action = Column(String, nullable=False)        # contoh: "CREATE_CANDIDATE", "DELETE_USER"
+    detail = Column(String, nullable=True)          # deskripsi manusiawi soal aksinya
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.datetime.now(datetime.timezone.utc))

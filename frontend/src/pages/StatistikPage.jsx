@@ -14,17 +14,30 @@ const POLL_INTERVAL = 5000; // 5 detik
 export default function StatistikPage() {
   const [stats, setStats] = useState(null);
   const [results, setResults] = useState([]);
+  const [myHimpunan, setMyHimpunan] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [isLive, setIsLive] = useState(true);
 
   const fetchData = useCallback(async () => {
     const token = localStorage.getItem("token");
     try {
+      const me = token
+        ? await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }).then(res => res.json())
+        : null;
+      const himpunan = me?.himpunan || null;
+      setMyHimpunan(himpunan);
+
+      const resultsUrl = himpunan
+        ? `${import.meta.env.VITE_API_URL}/results?himpunan=${himpunan}`
+        : `${import.meta.env.VITE_API_URL}/results`;
+
       const [s, r] = await Promise.all([
         fetch(`${import.meta.env.VITE_API_URL}/stats`, {
           headers: { Authorization: `Bearer ${token}` },
         }).then(res => res.json()),
-        fetch(`${import.meta.env.VITE_API_URL}/results`).then(res => res.json()),
+        fetch(resultsUrl).then(res => res.json()),
       ]);
       setStats(s);
       setResults(r);
@@ -47,7 +60,8 @@ export default function StatistikPage() {
     </div>
   );
 
-  const colors = ["#f59e0b", "#d97706", "#fbbf24"];
+  const PUBLIC_CHART_COLORS = ["#6366f1", "#ec4899", "#14b8a6", "#f59e0b", "#8b5cf6", "#f43f5e", "#0ea5e9", "#84cc16"];
+  const colors = results.map((_, i) => PUBLIC_CHART_COLORS[i % PUBLIC_CHART_COLORS.length]);
 
   const barData = {
     labels: results.map((r) => r.name),
@@ -82,7 +96,7 @@ export default function StatistikPage() {
       <div className="statistik-header">
         <div>
           <h1 className="page-title">Statistik Voting</h1>
-          <p className="page-subtitle">Data real-time pemilihan himpunan</p>
+          <p className="page-subtitle">Data real-time pemilihan {myHimpunan || "himpunan"}</p>
         </div>
         <div className="live-indicator">
           <span className={`live-dot ${isLive ? "live-dot-active" : "live-dot-off"}`}></span>

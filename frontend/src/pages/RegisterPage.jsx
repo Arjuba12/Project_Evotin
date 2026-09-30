@@ -1,16 +1,47 @@
 import React, { useState, useEffect } from "react";
 import "../styles/LoginPage.css";
 
+// 🔹 Key buat nyimpen progress registrasi di localStorage, biar kalau
+//    tab ke-refresh/ketutup di tengah step OTP, mahasiswa gak perlu isi ulang form dari awal.
+const PENDING_KEY = "evotin_pending_registration";
+
+function loadPending() {
+  try {
+    const raw = localStorage.getItem(PENDING_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function savePending(data) {
+  try {
+    localStorage.setItem(PENDING_KEY, JSON.stringify(data));
+  } catch {
+    /* ignore */
+  }
+}
+
+function clearPending() {
+  try {
+    localStorage.removeItem(PENDING_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
 export default function RegisterPage() {
-  const [step, setStep] = useState("register"); // register | otp
+  const pending = loadPending();
+
+  const [step, setStep] = useState(pending ? "otp" : "register"); // register | otp
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(pending?.email || "");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState("");
   const [generatedOtp, setGeneratedOtp] = useState("");
-  const [nim, setNim] = useState("");
+  const [nim, setNim] = useState(pending?.nim || "");
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -59,8 +90,10 @@ export default function RegisterPage() {
 
       // OTP sudah dikirim langsung ke email, frontend tidak perlu tahu OTP
       alert(
-        `✅ Registrasi berhasil! OTP telah dikirim ke email Anda (${email}).`
+        `✅ Registrasi berhasil! OTP telah dikirim ke email Anda (${email}).`,
       );
+      // 🔹 simpan progress, supaya kalau di-refresh langsung balik ke step OTP (bukan form awal)
+      savePending({ email, nim });
       setStep("otp"); // lanjut ke step OTP
     } catch (err) {
       console.error(err);
@@ -82,7 +115,7 @@ export default function RegisterPage() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, otp }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -91,6 +124,7 @@ export default function RegisterPage() {
         alert(`❌ ${data.detail || "OTP salah"}`);
       } else {
         alert("✅ OTP benar! Akun terverifikasi.");
+        clearPending(); // 🔹 registrasi selesai, hapus progress yang disimpan
         window.location.href = "/"; // balik ke login
       }
     } catch (err) {
@@ -121,7 +155,7 @@ export default function RegisterPage() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -384,6 +418,15 @@ export default function RegisterPage() {
         {/* Step OTP */}
         {step === "otp" && (
           <form className="login-form" onSubmit={handleVerifyOtp}>
+            <p
+              style={{
+                fontSize: "0.85rem",
+                color: "var(--text-muted, #888)",
+                marginBottom: "10px",
+              }}
+            >
+              Kode OTP dikirim ke <strong>{email}</strong>
+            </p>
             <div className="form-group">
               <div className="input-wrapper">
                 <input
@@ -421,6 +464,29 @@ export default function RegisterPage() {
               {resendCooldown > 0
                 ? `Kirim ulang OTP dalam ${resendCooldown} detik`
                 : "Kirim ulang OTP"}
+            </p>
+
+            {/* Batal & mulai ulang, kalau salah isi email/NIM */}
+            <p
+              style={{
+                cursor: "pointer",
+                color: "gray",
+                marginTop: "6px",
+                fontSize: "0.85rem",
+              }}
+              onClick={() => {
+                if (
+                  window.confirm(
+                    "Batalkan registrasi ini dan mulai ulang dari awal?",
+                  )
+                ) {
+                  clearPending();
+                  setStep("register");
+                  setOtp("");
+                }
+              }}
+            >
+              Salah data? Ulangi dari awal
             </p>
           </form>
         )}

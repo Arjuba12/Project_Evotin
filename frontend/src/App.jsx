@@ -11,6 +11,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AboutPage from "./pages/AboutPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
+import BillboardPage from "./pages/BillboardPage";
 
 function AdminRoute({ children }) {
   const token = localStorage.getItem("admin_token");
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/billboard" element={<BillboardPage />} />
 
         {/* User pages */}
         <Route path="/home" element={<ProtectedRoute><><Navbar /><HomePage /></></ProtectedRoute>} />

@@ -88,6 +88,10 @@ export default function ProfilePage() {
             <p className="info-value nim-value">{user?.nim ?? "–"}</p>
           </div>
           <div className="profile-info-card">
+            <p className="info-label">Himpunan</p>
+            <p className="info-value">{user?.himpunan ?? "–"}</p>
+          </div>
+          <div className="profile-info-card">
             <p className="info-label">Status Akun</p>
             <p className="info-value">
               <span className="status-dot status-active"></span>

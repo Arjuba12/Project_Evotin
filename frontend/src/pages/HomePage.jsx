@@ -12,15 +12,34 @@ export default function HomePage() {
   const [period, setPeriod] = useState(null);
   const [timeLeft, setTimeLeft] = useState({});
   const [isLive, setIsLive] = useState(true);
+  const [myHimpunan, setMyHimpunan] = useState(null);
   const token = localStorage.getItem("token");
 
-  // Fetch candidates sekali saja
+  // Ambil profil (buat tau himpunan sendiri), lalu fetch kandidat sesuai himpunan itu
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/candidates`)
-      .then((r) => r.json())
-      .then((d) => { setCandidates(d); setLoading(false); })
-      .catch(() => setLoading(false));
-  }, []);
+    async function loadCandidates() {
+      try {
+        let himpunan = null;
+        if (token) {
+          const me = await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }).then(r => r.json());
+          himpunan = me?.himpunan || null;
+          setMyHimpunan(himpunan);
+        }
+        const url = himpunan
+          ? `${import.meta.env.VITE_API_URL}/candidates?himpunan=${himpunan}`
+          : `${import.meta.env.VITE_API_URL}/candidates`;
+        const d = await fetch(url).then(r => r.json());
+        setCandidates(d);
+      } catch {
+        // biarin kosong kalau gagal
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadCandidates();
+  }, [token]);
 
   // Polling stats + period
   const fetchLiveData = useCallback(async () => {
@@ -36,7 +55,11 @@ export default function HomePage() {
         );
       }
       const [p, s] = await Promise.all(fetches);
-      if (p?.length > 0) setPeriod(p[0]);
+      if (p?.length > 0) {
+        // ambil periode dengan id TERBESAR (terbaru), samain sama logic backend di /vote
+        const latest = p.reduce((a, b) => (b.id > a.id ? b : a), p[0]);
+        setPeriod(latest);
+      }
       if (s) setStats(s);
       setIsLive(true);
     } catch {
@@ -97,7 +120,9 @@ export default function HomePage() {
     <div className="homepage">
       <div className="header-section">
         <div>
-          <h1 className="homepage-title">Pemilihan Himpunan</h1>
+          <h1 className="homepage-title">
+            {myHimpunan ? `Pemilihan Ketua ${myHimpunan}` : "Pemilihan Himpunan"}
+          </h1>
           <p className="homepage-subtitle">Berikan suaramu — transparan, aman, dan tercatat.</p>
         </div>
         <div className="live-indicator">

@@ -53,15 +53,14 @@ export default function LandingPage() {
         <h2>Dirancang untuk organisasi kampus</h2>
         <div className="feature-grid">
           {[
-            { icon: "🪪", color: "amber", title: "Verifikasi NIM", desc: "Hanya mahasiswa terdaftar yang dapat membuat akun dan memberikan suara." },
-            { icon: "📧", color: "blue", title: "OTP Email", desc: "Setiap akun diverifikasi lewat kode OTP yang dikirim ke email kampus." },
-            { icon: "📊", color: "green", title: "Hasil Real-time", desc: "Grafik hasil voting diperbarui langsung tanpa perlu refresh halaman." },
-            { icon: "⏱️", color: "red", title: "Periode Voting", desc: "Admin mengatur waktu buka dan tutup voting. Otomatis terkunci setelah selesai." },
-            { icon: "🔒", color: "amber", title: "Satu Suara", desc: "Sistem mencegah double voting — setiap akun hanya bisa memilih satu kali." },
-            { icon: "📱", color: "blue", title: "Mobile Friendly", desc: "Tampilan responsif, nyaman diakses dari HP maupun laptop." },
+            { color: "amber", title: "Verifikasi NIM", desc: "Hanya mahasiswa terdaftar yang dapat membuat akun dan memberikan suara." },
+            { color: "blue", title: "OTP Email", desc: "Setiap akun diverifikasi lewat kode OTP yang dikirim ke email kampus." },
+            { color: "green", title: "Hasil Real-time", desc: "Grafik hasil voting diperbarui langsung tanpa perlu refresh halaman." },
+            { color: "red", title: "Periode Voting", desc: "Admin mengatur waktu buka dan tutup voting. Otomatis terkunci setelah selesai." },
+            { color: "amber", title: "Satu Suara", desc: "Sistem mencegah double voting — setiap akun hanya bisa memilih satu kali." },
+            { color: "blue", title: "Mobile Friendly", desc: "Tampilan responsif, nyaman diakses dari HP maupun laptop." },
           ].map((f, i) => (
             <div className={`feature-card feat-${f.color}`} key={i}>
-              <div className="feat-icon">{f.icon}</div>
               <h3>{f.title}</h3>
               <p>{f.desc}</p>
             </div>
