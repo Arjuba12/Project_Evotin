@@ -587,16 +587,14 @@ def cast_vote(
             detail="Voting sudah selesai. Periode pemilihan telah berakhir."
         )
 
-    # Cek user sudah vote atau belum (satu-satunya sumber kebenaran: flag di akun user,
-    # BUKAN nyari di tabel Vote — tabel Vote sengaja anonim, gak ada user_id di situ)
-    if user.has_voted:
+    # Cek user sudah vote atau belum
+    existing_vote = db.query(Vote).filter(Vote.user_id == user.id).first()
+    if existing_vote:
         raise HTTPException(status_code=400, detail="User sudah voting")
 
-    # Simpan vote — TANPA user_id. Begitu baris ini masuk ke database, gak ada cara
-    # nelusurin balik pilihan ini ke akun user manapun.
-    new_vote = Vote(candidate_id=req.candidate_id)
+    # Simpan vote
+    new_vote = Vote(user_id=user.id, candidate_id=req.candidate_id)
     db.add(new_vote)
-    user.has_voted = True
     db.commit()
     db.refresh(new_vote)
 
@@ -636,7 +634,7 @@ def get_stats(db: Session = Depends(get_db), current_user: str = Depends(get_cur
         .filter(Candidate.himpunan == user.himpunan)
         .count()
     )
-    has_voted = user.has_voted
+    has_voted = db.query(Vote).filter(Vote.user_id == user.id).first() is not None
 
     return {
         "total_users": total_users,
@@ -776,8 +774,7 @@ def get_all_users(
             "email": u.email,
             "nim": u.nim,
             "himpunan": u.himpunan,
-            "is_verified": u.is_verified,
-            "has_voted": u.has_voted  # 🔹 cuma status udah/belum, BUKAN pilihannya — itu tetap anonim
+            "is_verified": u.is_verified
         }
         for u in users
     ]
@@ -792,13 +789,8 @@ def delete_user(
     if not user:
         raise HTTPException(status_code=404, detail="User tidak ditemukan")
 
-    # ⚠️ PENTING soal anonimitas: kalau user ini SUDAH voting (user.has_voted == True),
-    # suaranya TIDAK BISA ditarik balik dari hasil — karena tabel Vote sengaja gak
-    # nyimpen user_id, jadi sistem sendiri gak tau baris Vote mana yang dia kasih.
-    # Ini sama kayak kotak suara fisik: begitu surat suara masuk kotak, gak bisa
-    # dicabut lagi sekalipun identitas pemilihnya belakangan ketauan curang.
-    # Makanya akun yang dicurigai curang harus ditindak SEBELUM dia sempat voting.
-    was_already_voted = user.has_voted
+    # hapus vote yang pernah dia kasih (kalau ada)
+    db.query(Vote).filter(Vote.user_id == user.id).delete()
 
     # balikin status mahasiswa jadi "belum daftar" biar NIM-nya bisa dipake register ulang
     mahasiswa = db.query(models.Mahasiswa).filter(models.Mahasiswa.nim == user.nim).first()
@@ -808,8 +800,7 @@ def delete_user(
     username, email, nim = user.username, user.email, user.nim
     db.delete(user)
     db.commit()
-    vote_note = " — CATATAN: akun ini sudah voting, suaranya TETAP terhitung di hasil (anonim, tidak bisa ditarik)" if was_already_voted else ""
-    log_action(db, "DELETE_USER", f"Hapus akun user '{username}' ({email}, NIM {nim}){vote_note}")
+    log_action(db, "DELETE_USER", f"Hapus akun user '{username}' ({email}, NIM {nim})")
     return {"message": "User berhasil dihapus"}
 
 # ===== ADMIN: DATA MAHASISWA (whitelist NIM buat register) =====
