@@ -19,6 +19,8 @@ from datetime import datetime, timezone
 from pytz import timezone as tz
 
 import smtplib
+import socket
+import time
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
@@ -246,16 +248,39 @@ def send_email_otp(to_email: str, otp: str):
     msg["To"] = to_email
     msg.attach(MIMEText(html_body, "html"))
 
-    try:
-        # timeout=10 → biar kalau relay-nya lemot/nyangkut, gagal cepet (10 detik) daripada
-        # nge-hang lama dan nge-block request /register yang lagi nunggu fungsi ini selesai
-        with smtplib.SMTP("smtp-relay.brevo.com", 587, timeout=10) as server:
-            server.starttls()
-            server.login(brevo_login, brevo_key)
-            server.sendmail(sender_email, to_email, msg.as_string())
-        print(f"✅ OTP dikirim ke {to_email} lewat Brevo")
-    except Exception as e:
-        print(f"⚠️ Gagal kirim email ke {to_email} lewat Brevo: {e}")
+    # 🔹 30 detik per percobaan biar Brevo yang agak lambat tetap bisa selesai.
+    #    Total 3 percobaan, jeda antar percobaan pakai exponential backoff (2s, 5s, 10s).
+    #    Dijalankan via background_tasks, jadi tidak mem-block response /register.
+    smtp_timeout = 30
+    max_attempts = 3
+    retry_delays = [2, 5, 10]
+
+    for attempt in range(1, max_attempts + 1):
+        try:
+            with smtplib.SMTP("smtp-relay.brevo.com", 587, timeout=smtp_timeout) as server:
+                server.starttls()
+                server.login(brevo_login, brevo_key)
+                server.sendmail(sender_email, to_email, msg.as_string())
+            print(f"✅ OTP dikirim ke {to_email} lewat Brevo (percobaan {attempt}/{max_attempts})")
+            return
+        except smtplib.SMTPAuthenticationError as e:
+            # Kredensial salah — retry tidak akan membantu
+            print(f"❌ Brevo auth gagal untuk {to_email}: {e}. Cek BREVO_SMTP_LOGIN / BREVO_SMTP_KEY. Tidak di-retry.")
+            return
+        except (socket.timeout, TimeoutError) as e:
+            print(f"⚠️ Timeout ({smtp_timeout}s) kirim email ke {to_email} lewat Brevo (percobaan {attempt}/{max_attempts}): {e}")
+        except smtplib.SMTPException as e:
+            print(f"⚠️ Error SMTP kirim email ke {to_email} lewat Brevo (percobaan {attempt}/{max_attempts}): {type(e).__name__}: {e}")
+        except Exception as e:
+            print(f"⚠️ Error tak terduga kirim email ke {to_email} lewat Brevo (percobaan {attempt}/{max_attempts}): {type(e).__name__}: {e}")
+
+        if attempt < max_attempts:
+            delay = retry_delays[attempt - 1]
+            print(f"🔁 Mencoba lagi kirim email ke {to_email} dalam {delay} detik...")
+            time.sleep(delay)
+
+    print(f"❌ Gagal kirim email ke {to_email} lewat Brevo setelah {max_attempts} percobaan")
+
         
 @app.post("/register")
 def register(req: RegisterRequest, request: Request, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
