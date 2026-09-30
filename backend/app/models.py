@@ -15,6 +15,11 @@ class User(Base):
     otp_code = Column(String, nullable=True)
     otp_attempts = Column(Integer, nullable=False, default=0)  # 🔹 hitung percobaan OTP salah, buat cegah brute-force
 
+    # 🔒 ANONIMITAS VOTE: flag ini yang jadi satu-satunya penanda "user ini udah milih".
+    # SENGAJA tidak ada relasi/kolom apapun di sini yang nunjuk ke kandidat mana yang
+    # dipilih — itu justru yang bikin vote beneran rahasia (lihat class Vote di bawah).
+    has_voted = Column(Boolean, nullable=False, default=False)
+
 class Candidate(Base):
     __tablename__ = "candidates"
     id = Column(Integer, primary_key=True, index=True)
@@ -27,16 +32,23 @@ class Candidate(Base):
 
 
 class Vote(Base):
+    """
+    🔒 TABEL INI SENGAJA ANONIM.
+
+    Cuma nyimpen kandidat mana yang dipilih — TIDAK ADA kolom user_id, NIM, email,
+    atau apapun yang bisa dipakai buat nelusurin balik ke siapa pemilihnya. Ini beda
+    dari desain lama, yang nyimpen user_id di tabel ini (jadi siapapun yang akses
+    database bisa tau persis siapa milih siapa).
+
+    Siapa yang udah/belum voting dicek lewat User.has_voted, BUKAN dari tabel ini.
+    """
     __tablename__ = "votes"
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
     candidate_id = Column(Integer, ForeignKey("candidates.id"))
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.datetime.now(datetime.timezone.utc))
 
     candidate = relationship("Candidate", back_populates="votes")
 
-    __table_args__ = (
-        UniqueConstraint("user_id", name="unique_user_vote"),  # ⛔ user hanya bisa 1x vote
-    )
     
 class VotingPeriod(Base):
     __tablename__ = "voting_periods"
