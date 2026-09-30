@@ -18,9 +18,8 @@ from . import models, schemas, database
 from datetime import datetime, timezone
 from pytz import timezone as tz
 
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import requests  # 🔹 dipakai buat manggil Brevo lewat HTTPS API (bukan smtplib/SMTP lagi —
+                  #    Railway blokir semua koneksi SMTP keluar di paket Free/Hobby, cuma HTTPS yang kebuka)
 
 from dotenv import load_dotenv
 import os
@@ -233,27 +232,34 @@ def send_email_otp(to_email: str, otp: str):
     </div>
     """
 
-    # 🔹 Pindah dari SMTP Gmail personal ke Brevo (relay khusus transactional email).
-    #    Alasannya: Gmail personal kena limit kirim harian + kadang "accept-terus-dibuang"
-    #    diem-diem kalau dianggap mencurigakan (login dari IP datacenter kayak Railway).
-    brevo_login = os.getenv("BREVO_SMTP_LOGIN")
-    brevo_key = os.getenv("BREVO_SMTP_KEY")
+    # 🔹 Pindah dari SMTP ke Brevo REST API (HTTPS, port 443) — bukan smtplib/SMTP lagi.
+    #    Railway blokir semua koneksi SMTP keluar (port 25/465/587) di paket Free/Hobby,
+    #    cuma dibuka kalau upgrade ke Pro. HTTPS biasa gak kena blokir itu sama sekali.
+    brevo_api_key = os.getenv("BREVO_API_KEY")  # ⚠️ beda sama BREVO_SMTP_KEY — ambil dari tab "API Keys"
     sender_email = os.getenv("BREVO_SENDER_EMAIL")  # harus persis sama kayak email yang diverifikasi di Brevo
 
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = "Kode Verifikasi NEOVOTE"
-    msg["From"] = f"NEOVOTE <{sender_email}>"
-    msg["To"] = to_email
-    msg.attach(MIMEText(html_body, "html"))
-
     try:
-        # timeout=10 → biar kalau relay-nya lemot/nyangkut, gagal cepet (10 detik) daripada
+        # timeout=10 → biar kalau Brevo-nya lemot/nyangkut, gagal cepet (10 detik) daripada
         # nge-hang lama dan nge-block request /register yang lagi nunggu fungsi ini selesai
-        with smtplib.SMTP("smtp-relay.brevo.com", 587, timeout=10) as server:
-            server.starttls()
-            server.login(brevo_login, brevo_key)
-            server.sendmail(sender_email, to_email, msg.as_string())
-        print(f"✅ OTP dikirim ke {to_email} lewat Brevo")
+        resp = requests.post(
+            "https://api.brevo.com/v3/smtp/email",
+            headers={
+                "accept": "application/json",
+                "api-key": brevo_api_key,
+                "content-type": "application/json",
+            },
+            json={
+                "sender": {"name": "NEOVOTE", "email": sender_email},
+                "to": [{"email": to_email}],
+                "subject": "Kode Verifikasi NEOVOTE",
+                "htmlContent": html_body,
+            },
+            timeout=10,
+        )
+        if resp.status_code >= 300:
+            print(f"⚠️ Gagal kirim email ke {to_email} lewat Brevo: {resp.status_code} {resp.text}")
+        else:
+            print(f"✅ OTP dikirim ke {to_email} lewat Brevo")
     except Exception as e:
         print(f"⚠️ Gagal kirim email ke {to_email} lewat Brevo: {e}")
         
