@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends, status, UploadFile, File, Form, Request
+from fastapi import FastAPI, HTTPException, Depends, status, UploadFile, File, Form, Request, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
@@ -233,26 +233,32 @@ def send_email_otp(to_email: str, otp: str):
     </div>
     """
 
-    gmail_address = os.getenv("GMAIL_ADDRESS")
-    gmail_app_password = os.getenv("GMAIL_APP_PASSWORD")
+    # 🔹 Pindah dari SMTP Gmail personal ke Brevo (relay khusus transactional email).
+    #    Alasannya: Gmail personal kena limit kirim harian + kadang "accept-terus-dibuang"
+    #    diem-diem kalau dianggap mencurigakan (login dari IP datacenter kayak Railway).
+    brevo_login = os.getenv("BREVO_SMTP_LOGIN")
+    brevo_key = os.getenv("BREVO_SMTP_KEY")
+    sender_email = os.getenv("BREVO_SENDER_EMAIL")  # harus persis sama kayak email yang diverifikasi di Brevo
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = "Kode Verifikasi NEOVOTE"
-    msg["From"] = f"NEOVOTE <{gmail_address}>"
+    msg["From"] = f"NEOVOTE <{sender_email}>"
     msg["To"] = to_email
     msg.attach(MIMEText(html_body, "html"))
 
     try:
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        # timeout=10 → biar kalau relay-nya lemot/nyangkut, gagal cepet (10 detik) daripada
+        # nge-hang lama dan nge-block request /register yang lagi nunggu fungsi ini selesai
+        with smtplib.SMTP("smtp-relay.brevo.com", 587, timeout=10) as server:
             server.starttls()
-            server.login(gmail_address, gmail_app_password)
-            server.sendmail(gmail_address, to_email, msg.as_string())
-        print(f"✅ OTP dikirim ke {to_email} lewat Gmail")
+            server.login(brevo_login, brevo_key)
+            server.sendmail(sender_email, to_email, msg.as_string())
+        print(f"✅ OTP dikirim ke {to_email} lewat Brevo")
     except Exception as e:
-        print(f"⚠️ Gagal kirim email ke {to_email} lewat Gmail: {e}")
+        print(f"⚠️ Gagal kirim email ke {to_email} lewat Brevo: {e}")
         
 @app.post("/register")
-def register(req: RegisterRequest, request: Request, db: Session = Depends(get_db)):
+def register(req: RegisterRequest, request: Request, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     email = req.email.strip().lower()
     nim = req.nim.strip()
     ip = get_client_ip(request)
@@ -351,7 +357,7 @@ def register(req: RegisterRequest, request: Request, db: Session = Depends(get_d
     _log("REGISTER_SUCCESS", "OTP dikirim, menunggu verifikasi")
 
     # 9. Kirim OTP
-    send_email_otp(email, otp)
+    background_tasks.add_task(send_email_otp, email, otp)
     return {"message": notif}
 
 
@@ -440,7 +446,7 @@ def verify_otp(req: schemas.VerifyOTP, request: Request, db: Session = Depends(d
     return {"message": "OTP valid, akun sudah aktif"}
 
 @app.post("/resend-otp")
-def resend_otp(req: ResendOTPRequest, request: Request, db: Session = Depends(database.get_db)):
+def resend_otp(req: ResendOTPRequest, request: Request, background_tasks: BackgroundTasks, db: Session = Depends(database.get_db)):
     ip = get_client_ip(request)
     user = db.query(User).filter(models.User.email == req.email).first()
     if not user:
@@ -456,7 +462,7 @@ def resend_otp(req: ResendOTPRequest, request: Request, db: Session = Depends(da
     log_action(db, "OTP_RESEND", f"NIM {user.nim}, email {req.email}, IP {ip} — minta OTP baru")
 
     # 🔹 Kirim OTP baru ke email
-    send_email_otp(user.email, new_otp)
+    background_tasks.add_task(send_email_otp, user.email, new_otp)
 
     return {"message": "OTP baru telah dikirim ke email"}
 
