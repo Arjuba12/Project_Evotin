@@ -12,3 +12,4 @@ fastapi-mail==1.4.1
 aiosmtplib<3.0,>=2.0
 openpyxl
 python-multipart
+requests
